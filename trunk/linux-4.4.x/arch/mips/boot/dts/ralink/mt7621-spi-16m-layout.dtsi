@@ -26,12 +26,12 @@
 
 		partition@50000 {
 			label = "firmware";
-			reg = <0x50000 0xf30000>;
+			reg = <0x50000 0xa30000>; /* make sure that your firmware size is less than 10354688 bytes */
 		};
 
 		partition@f80000 {
 			label = "Storage";
-			reg = <0xf80000 0x80000>; /* 512K */
+			reg = <0xa80000 0x500000>; /* 5MB */
 		};
 
 		partition@all {
