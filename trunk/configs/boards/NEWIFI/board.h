@@ -1,8 +1,8 @@
 /* Lenovo NEWIFI-D1 */
 
-#define BOARD_PID		"NEWIFI-D1"
-#define BOARD_NAME		"NEWIFI-D1"
-#define BOARD_DESC		"Lenovo NEWIFI-D1 Wireless Router"
+#define BOARD_PID		"NEWIFI"
+#define BOARD_NAME		"NEWIFI"
+#define BOARD_DESC		"Lenovo NEWIFI Wireless Router"
 #define BOARD_VENDOR_NAME	"Lenovo(Beijing) Limited"
 #define BOARD_VENDOR_URL	"http://www.newifi.com/"
 #define BOARD_MODEL_URL		"http://www.newifi.com/product_newifi2_summary.shtml"
