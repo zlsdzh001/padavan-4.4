@@ -15,6 +15,11 @@ obj-$(CONFIG_MULTIUSER) += groups.o
 
 ifdef CONFIG_FUNCTION_TRACER
 # Do not trace debug files and internal ftrace files
+CFLAGS_REMOVE_lockdep.o = $(CC_FLAGS_FTRACE)
+CFLAGS_REMOVE_lockdep_proc.o = $(CC_FLAGS_FTRACE)
+CFLAGS_REMOVE_mutex-debug.o = $(CC_FLAGS_FTRACE)
+CFLAGS_REMOVE_rtmutex-debug.o = $(CC_FLAGS_FTRACE)
+
 CFLAGS_REMOVE_cgroup-debug.o = $(CC_FLAGS_FTRACE)
 CFLAGS_REMOVE_irq_work.o = $(CC_FLAGS_FTRACE)
 endif
@@ -34,12 +39,12 @@ KASAN_SANITIZE_kcov.o := n
 CFLAGS_sys_ni.o = $(DISABLE_LTO)
 
 obj-y += sched/
-obj-y += locking/
+#obj-y += locking/
 obj-y += power/
-obj-y += printk/
-obj-y += irq/
-obj-y += rcu/
-obj-y += livepatch/
+#obj-y += printk/
+#obj-y += irq/
+#obj-y += rcu/
+#obj-y += livepatch/
 
 obj-$(CONFIG_CHECKPOINT_RESTORE) += kcmp.o
 obj-$(CONFIG_FREEZER) += freezer.o
