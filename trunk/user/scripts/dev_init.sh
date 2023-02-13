@@ -116,6 +116,11 @@ if [ -f /usr/bin/htop ]; then
 	echo "color_scheme=6" > /home/root/.config/htop/htoprc
 fi
 
+# blue LED enabled
+echo 1 >/sys/class/leds/blue\:status/brightness
+echo 0 >/sys/class/leds/green\:status/brightness
+echo 0 >/sys/class/leds/red\:status/brightness
+
 # perform start script
 if [ -x /etc/storage/start_script.sh ] ; then
 	/etc/storage/start_script.sh
