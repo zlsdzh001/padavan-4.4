@@ -1,4 +1,4 @@
-name: build
+name: padavan-4.4-build
 
 on: 
   workflow_dispatch:
