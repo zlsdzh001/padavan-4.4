@@ -321,13 +321,24 @@ start_dns() {
 	rm -f /tmp/china.ipset
 	case "$run_mode" in
 	router)
-		dnsstr="$(nvram get tunnel_forward)"
-		dnsserver=$(echo "$dnsstr" | awk -F '#' '{print $1}')
-		#dnsport=$(echo "$dnsstr" | awk -F '#' '{print $2}')
-		log "启动 dns2tcp：5353 端口..."
-		dns2tcp -L"127.0.0.1#5353" -R"$dnsstr" >/dev/null 2>&1 &
-		pdnsd_enable_flag=0
-		log "开始处理 gfwlist..."
+		if [ $(nvram get ss_chdns) = 1 ]; then
+			chinadnsng_enable_flag=1
+			local_chnlist_file='/etc/storage/chnlist_mini.txt'
+			dns2tcp -L"127.0.0.1#5353" -R"$(nvram get tunnel_forward)" >/dev/null 2>&1 &
+			if [ -f "$local_chnlist_file" ]; then
+			  logger -st "SS" "启动chinadns加速..."
+			  chinadns-ng -b 0.0.0.0 -l 65353 -c $(nvram get china_dns) -t 127.0.0.1#5353 -4 china -M -m $local_chnlist_file >/dev/null 2>&1 &
+			else
+			  logger -t "SS" "本次不使用本地cdn域名文件$local_chnlist_file, 下次你自已可以创建它，文件中每行表示一个域名（不用要子域名）"
+			  chinadns-ng -b 0.0.0.0 -l 65353 -c $(nvram get china_dns) -t 127.0.0.1#5353 -4 china >/dev/null 2>&1 &
+			fi
+			sed -i '/no-resolv/d' /etc/storage/dnsmasq/dnsmasq.conf
+			sed -i '/server=127.0.0.1/d' /etc/storage/dnsmasq/dnsmasq.conf
+			cat >> /etc/storage/dnsmasq/dnsmasq.conf << EOF
+no-resolv
+server=127.0.0.1#65353
+EOF
+    		fi
 	;;
 	gfw)
 		dnsstr="$(nvram get tunnel_forward)"
