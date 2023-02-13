@@ -37,7 +37,8 @@ jobs:
           echo "${GOROOT}/bin" >> $GITHUB_PATH
       - name: Build
         run: |
-          TNAME="{{ matrix.target }}"
+          TNAME={{ matrix.target }}
+          echo "TNAME=$TNAME"
           cd trunk
           if [ ! -f configs/templates/$TNAME.config ] ; then
           echo "configs/templates/$TNAME.config not found "
