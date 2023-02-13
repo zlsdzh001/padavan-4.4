@@ -131,6 +131,7 @@ dir_$(CONFIG_FIRMWARE_INCLUDE_RPL2TP)		+= rp-l2tp
 dir_y						+= lldt
 dir_y						+= scripts
 dir_$(CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS)						+= skipdbv2
+dir_$(CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS)						+= chinadns-ng
 dir_$(CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS)						+= lua51
 dir_$(CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS)            +=ipt2socks
 dir_$(CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS)            +=resolveip
