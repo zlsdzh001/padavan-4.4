@@ -59,6 +59,8 @@ echo 15 > /proc/sys/net/netfilter/nf_conntrack_udp_timeout
 echo 15 > /proc/sys/net/netfilter/nf_conntrack_udp_timeout_stream
 echo 15 > /proc/sys/net/netfilter/nf_conntrack_icmp_timeout
 
+echo 1 > /proc/sys/net/ipv4/tcp_tw_recycle
+
 # icmp for ipv4/ipv6
 echo 0 > /proc/sys/net/ipv4/icmp_ratelimit
 echo 0 > /proc/sys/net/ipv4/icmp_ratemask
