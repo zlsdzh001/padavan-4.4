@@ -1,15 +1,18 @@
 # padavan-4.4 #
 
+This project is based on original rt-n56u with latest mtk 4.4.198 kernel, which is fetch from D-LINK GPL code.
+
 #### Extra fixes / changes
 - Revise the MTD storage partition for 16M flash, the firmware size must be less than 10MB as possible,
 - Revise the MTD storage partition for 32M flash, the firmware size has no change as before, but the storage size can have more than 15MB.
 - Adding user/chinadns-ng , and fix shadowsocks + chinadns-ng using local domain whitellist.
 
-This project is based on original rt-n56u with latest mtk 4.4.198 kernel, which is fetch from D-LINK GPL code.
-
 #### Compile notes
 - Be careful: if you run the same workflow twice again , it could directly reload the previous `Makefile` from cache. 
   so if you made change of `Makefile` , you will have to run a new workfolow!!!
+
+
+**Below is all changes from [tsl0922/padavan](https://github.com/tsl0922/padavan)**
 
 ##### Enhancements in this repo
 
