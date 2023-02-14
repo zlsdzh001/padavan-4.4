@@ -108,7 +108,7 @@ calc_load(unsigned long load, unsigned long exp, unsigned long active)
 	return newload / FIXED_1;
 }
 
-#ifdef CONFIG_NO_HZ_TEST // CONFIG_NO_HZ_COMMON
+#ifdef CONFIG_NO_HZ_COMMON
 /*
  * Handle NO_HZ for the global load-average.
  *
