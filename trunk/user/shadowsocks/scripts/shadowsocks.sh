@@ -246,7 +246,7 @@ start_redir_tcp() {
 		last_config_file=$CONFIG_FILE
 		pid_file="/tmp/ssr-retcp.pid"
 		for i in $(seq 1 $threads); do
-			run_bin $bin -c $CONFIG_FILE $ARG_OTA -f /tmp/ssr-retcp_$i.pid
+			run_bin $bin --reuse-port --fast-open -c $CONFIG_FILE $ARG_OTA -f /tmp/ssr-retcp_$i.pid
 			usleep 500000
 		done
 		redir_tcp=1
@@ -290,7 +290,7 @@ start_redir_udp() {
 			gen_config_file $UDP_RELAY_SERVER 1 1080
 			last_config_file=$CONFIG_UDP_FILE
 			pid_file="/var/run/ssr-reudp.pid"
-			run_bin $bin -c $last_config_file $ARG_OTA -U -f /var/run/ssr-reudp.pid
+			run_bin $bin --reuse-port --fast-open -c $last_config_file $ARG_OTA -U -f /var/run/ssr-reudp.pid
 			;;
 		v2ray)
 			gen_config_file $UDP_RELAY_SERVER 1
@@ -402,7 +402,7 @@ start_local() {
 		[ ! -f "$bin" ] && log "Global_Socks5:Can't find $bin program, can't start!" && return 1
 		[ "$type" == "ssr" ] && name="ShadowsocksR"
 		gen_config_file $local_server 3 $s5_port
-		run_bin $bin -c $CONFIG_SOCK5_FILE -u -f /var/run/ssr-local.pid
+		run_bin $bin --reuse-port --fast-open -c $CONFIG_SOCK5_FILE -u -f /var/run/ssr-local.pid
 		log "Global_Socks5:$name Started!"
 		;;
 	v2ray)
