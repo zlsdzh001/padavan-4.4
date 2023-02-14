@@ -41,7 +41,7 @@ echo 1        > /proc/sys/net/ipv4/conf/eth2/rp_filter
 # conntrack
 echo 0 > /proc/sys/net/netfilter/nf_conntrack_checksum
 echo 1 > /proc/sys/net/netfilter/nf_conntrack_tcp_be_liberal
-echo 15      > /proc/sys/net/netfilter/nf_conntrack_generic_timeout
+echo 60      > /proc/sys/net/netfilter/nf_conntrack_generic_timeout
 echo 30     > /proc/sys/net/netfilter/nf_conntrack_tcp_timeout_established
 echo 30       > /proc/sys/net/netfilter/nf_conntrack_icmp_timeout
 echo 50       > /proc/sys/net/netfilter/nf_conntrack_udp_timeout
