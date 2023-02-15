@@ -9,7 +9,7 @@ check_frp ()
 {
 	check_net
 	result_net=$?
-	if [[ "$result_net" = "1" && "$result_app" == "1" ]] ;then
+	if [ "$result_net" = "1" ]; then
 		if [ -z "`pidof frpc`" ] && [ "$frpc_enable" = "1" ];then
 			r=$(down_frpc)
 			if [ "$r" == "1" ]; then
