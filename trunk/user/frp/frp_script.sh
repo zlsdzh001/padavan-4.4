@@ -51,9 +51,9 @@ EOF
 frpc_enable=`nvram get frpc_enable`
 frps_enable=`nvram get frps_enable`
 if [ "$frpc_enable" = "1" ] ; then
-    /tmp/frpc -c /tmp/frp/myfrpc.ini 2>&1 &
+    /tmp/frp/frpc -c /tmp/frp/myfrpc.ini 2>&1 &
 fi
 if [ "$frps_enable" = "1" ] ; then
-    /tmp/frps -c /tmp/frp/myfrps.ini 2>&1 &
+    /tmp/frp/frps -c /tmp/frp/myfrps.ini 2>&1 &
 fi
  
