@@ -122,6 +122,11 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 			fill_ss_status(shadowsocks_status());
 			fill_dns2tcp_status(dns2tcp_status());
 			fill_dnsproxy_status(dnsproxy_status());
+			var wan0_dns = '<% nvram_get_x("","wan0_dns"); %>';
+			if (wan0_dns.length > 0){ // use local DNS
+					$j("select[name='china_dns']").prepend($j('<option value="'+wan0_dns+'" selected>本地DNS ' + wan0_dns + '</option>'));
+			}
+
 			$("chnroute_count").innerHTML = '<#menu5_17_3#>' + chnroute_count();
 			$("gfwlist_count").innerHTML = '<#menu5_17_3#>' + gfwlist_count();
 			switch_ss_type();
