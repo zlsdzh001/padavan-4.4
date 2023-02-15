@@ -2,12 +2,14 @@
 frpc_enable=`nvram get frpc_enable`
 frps_enable=`nvram get frps_enable`
 http_username=`nvram get http_username`
+frpc_path="/etc/storage/frpc"
 
 check_frp () 
 {
 	check_net
 	result_net=$?
-	if [ "$result_net" = "1" ] ;then
+	result_app=$(down_frpc)
+	if [[ "$result_net" = "1" && "$result_app" == "1" ]] ;then
 		if [ -z "`pidof frpc`" ] && [ "$frpc_enable" = "1" ];then
 			frp_start
 		fi
@@ -15,6 +17,23 @@ check_frp ()
 			frp_start
 		fi
 	fi
+}
+
+down_frpc()
+{
+	FRP_URL="https://opt.cn2qq.com/opt-file/frpc"
+	if [ ! -f "$frpc_path" ]; then
+		wget -t5 --timeout=60 --no-check-certificate -O $frpc_path $FRP_URL; 
+		if [ -f "$frpc_path" ]; then
+			logger -t "frp" "无法下载应用程序，稍后手工再试！"
+			echo "0"
+			return
+		fi
+	fi
+	mkdir -p /tmp/frp
+	rm -rf /tmp/frp/frpc
+	ln -s $frpc_path /tmp/frp/frpc
+	echo "1"
 }
 
 check_net() 
