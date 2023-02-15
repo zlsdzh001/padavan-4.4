@@ -25,14 +25,14 @@ down_frpc()
 	if [ ! -f "$frpc_path" ]; then
 		wget -t5 --timeout=60 --no-check-certificate -O $frpc_path $FRP_URL; 
 		if [ -f "$frpc_path" ]; then
-			logger -t "frp" "无法下载应用程序，稍后手工再试！"
+			logger -t "frp" "无法下载应用程序，请确认网络正常，有充足的空间在/etc/storage/，请手工重启再试！"
 			echo "0"
 			return
 		fi
 	fi
 	mkdir -p /tmp/frp
 	rm -rf /tmp/frp/frpc
-	ln -s $frpc_path /tmp/frp/frpc
+	chmod +x $frpc_path && ln -s $frpc_path /tmp/frp/frpc
 	echo "1"
 }
 
