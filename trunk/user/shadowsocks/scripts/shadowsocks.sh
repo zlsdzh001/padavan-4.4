@@ -8,6 +8,7 @@
 # This is free software, licensed under the GNU General Public License v3.
 # See /LICENSE for more information.
 #
+# changed by simonchen 2023
 
 NAME=shadowsocksr
 pppoemwan=`nvram get pppoemwan_enable`
@@ -313,7 +314,28 @@ start_redir_udp() {
 	return 0
 }
 
+stop_dns_proxy() {
+	pgrep dns2tcp | args kill
+	pgrep dnsproxy | args kill	
+}
+
+start_dns_proxy() {
+	pdnsd_enable=$(nvram get pdnsd_enable) # 0: dnsproxy , 1: dns2tcp
+	pdnsd_enable_flag=$pdnsd_enable
+	if [ $pdnsd_enable = 1 ]; then
+	    log "启动 dns2tcp：5353 端口..."
+		dns2tcp -L"127.0.0.1#5353" -R"$(nvram get tunnel_forward)" >/dev/null 2>&1 &
+	elif [ $pdnsd_enable = 0 ]; then
+		remote_ip=`echo "$(nvram get tunnel_forward)" | awk -F '#' '{print $1}'`
+		log "启动 dnsproxy：5353 端口..."
+		dnsproxy -d -p 5353 -R $remote_ip >/dev/null 2>&1 &
+	else
+		log "DNS解析方式不支持该选项: $pdnsd_enable , 建议选择dnsproxy"
+	fi
+}
+
 start_dns() {
+	ss_chdns=$(nvram get ss_chdns)
 	echo "create china hash:net family inet hashsize 1024 maxelem 65536" >/tmp/china.ipset
 	awk '!/^$/&&!/^#/{printf("add china %s'" "'\n",$0)}' /etc/storage/chinadns/chnroute.txt >>/tmp/china.ipset
 	ipset -! flush china
@@ -321,15 +343,16 @@ start_dns() {
 	rm -f /tmp/china.ipset
 	case "$run_mode" in
 	router)
-		if [ $(nvram get ss_chdns) = 1 ]; then
+		if [ $ss_chdns = 1 ]; then
 			chinadnsng_enable_flag=1
+			stop_dns_proxy
+			start_dns_proxy
 			local_chnlist_file='/etc/storage/chnlist_mini.txt'
-			dns2tcp -L"127.0.0.1#5353" -R"$(nvram get tunnel_forward)" >/dev/null 2>&1 &
 			if [ -f "$local_chnlist_file" ]; then
-			  logger -st "SS" "启动chinadns加速..."
+			  log "启动chinadns分流，仅国外域名走DNS代理..."
 			  chinadns-ng -b 0.0.0.0 -l 65353 -c $(nvram get china_dns) -t 127.0.0.1#5353 -4 china -M -m $local_chnlist_file >/dev/null 2>&1 &
 			else
-			  logger -t "SS" "本次不使用本地cdn域名文件$local_chnlist_file, 下次你自已可以创建它，文件中每行表示一个域名（不用要子域名）"
+			  log "启动chinadns分流，全部域名走DNS代理...本次不使用本地cdn域名文件$local_chnlist_file, 下次你自已可以创建它，文件中每行表示一个域名（不用要子域名）"
 			  chinadns-ng -b 0.0.0.0 -l 65353 -c $(nvram get china_dns) -t 127.0.0.1#5353 -4 china >/dev/null 2>&1 &
 			fi
 			sed -i '/no-resolv/d' /etc/storage/dnsmasq/dnsmasq.conf
@@ -345,9 +368,9 @@ EOF
 		dnsserver=$(echo "$dnsstr" | awk -F '#' '{print $1}')
 		#dnsport=$(echo "$dnsstr" | awk -F '#' '{print $2}')
 		ipset add gfwlist $dnsserver 2>/dev/null
-		log "启动 dns2tcp：5353 端口..."
-		dns2tcp -L"127.0.0.1#5353" -R"$dnsstr" >/dev/null 2>&1 &
-		pdnsd_enable_flag=0
+
+		stop_dns_proxy
+		start_dns_proxy
 		log "开始处理 gfwlist..."
 		;;
 	oversea)
@@ -597,6 +620,13 @@ kill_process() {
 		log "关闭 dns2tcp 进程..."
 		killall dns2tcp >/dev/null 2>&1
 		kill -9 "$dns2tcp_process" >/dev/null 2>&1
+	fi
+
+	dnsproxy_process=$(pidof dnsproxy)
+	if [ -n "$dnsproxy_process" ]; then
+		log "关闭 dnsproxy 进程..."
+		killall dnsproxy >/dev/null 2>&1
+		kill -9 "$dnsproxy_process" >/dev/null 2>&1
 	fi
 	
 	microsocks_process=$(pidof microsocks)
