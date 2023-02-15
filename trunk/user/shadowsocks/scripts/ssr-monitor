@@ -149,7 +149,7 @@ do
 			#dns2tcp -L"127.0.0.1#5353" -R"$(nvram get tunnel_forward)" >/dev/null 2>&1 &
 			stop_dns_proxy
 			start_dns_proxy
-			local_chnlist_file='/etc/storage/chnlist_mini.txt'
+			local_chnlist_file='/etc/storage/chinadns/chnlist_mini.txt'
 			if [ -f "$local_chnlist_file" ]; then
 			  log "启动chinadns分流，仅国外域名走DNS代理..."
 			  chinadns-ng -b 0.0.0.0 -l 65353 -c $(nvram get china_dns) -t 127.0.0.1#5353 -4 china -M -m $local_chnlist_file >/dev/null 2>&1 &
