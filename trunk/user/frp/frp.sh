@@ -3,18 +3,24 @@ frpc_enable=`nvram get frpc_enable`
 frps_enable=`nvram get frps_enable`
 http_username=`nvram get http_username`
 frpc_path="/etc/storage/frpc"
+frps_path="/etc/storage/frps"
 
 check_frp () 
 {
 	check_net
 	result_net=$?
-	result_app=$(down_frpc)
 	if [[ "$result_net" = "1" && "$result_app" == "1" ]] ;then
 		if [ -z "`pidof frpc`" ] && [ "$frpc_enable" = "1" ];then
-			frp_start
+			r=$(down_frpc)
+			if [ "$r" == "1" ]; then
+				frp_start
+			fi
 		fi
 		if [ -z "`pidof frps`" ] && [ "$frps_enable" = "1" ];then
-			frp_start
+			r=$(down_frps)
+			if [ "$r" == "1" ]; then
+				frp_start
+			fi
 		fi
 	fi
 }
@@ -25,7 +31,7 @@ down_frpc()
 	if [ ! -f "$frpc_path" ]; then
 		wget -t5 --timeout=60 --no-check-certificate -O $frpc_path $FRP_URL; 
 		if [ -f "$frpc_path" ]; then
-			logger -t "frp" "无法下载应用程序，请确认网络正常，有充足的空间在/etc/storage/，请手工重启再试！"
+			logger -t "frp" "无法下载应用程序frpc，请确认网络正常，有充足的空间在/etc/storage/，请手工重启再试！"
 			echo "0"
 			return
 		fi
@@ -33,6 +39,23 @@ down_frpc()
 	mkdir -p /tmp/frp
 	rm -rf /tmp/frp/frpc
 	chmod +x $frpc_path && ln -s $frpc_path /tmp/frp/frpc
+	echo "1"
+}
+
+down_frps()
+{
+	FRP_URL="https://opt.cn2qq.com/opt-file/frps"
+	if [ ! -f "$frps_path" ]; then
+		wget -t5 --timeout=60 --no-check-certificate -O $frps_path $FRP_URL; 
+		if [ -f "$frps_path" ]; then
+			logger -t "frp" "无法下载应用程序frps，请确认网络正常，有充足的空间在/etc/storage/，请手工重启再试！"
+			echo "0"
+			return
+		fi
+	fi
+	mkdir -p /tmp/frp
+	rm -rf /tmp/frp/frps
+	chmod +x $frps_path && ln -s $frps_path /tmp/frp/frps
 	echo "1"
 }
 
