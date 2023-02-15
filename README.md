@@ -7,6 +7,7 @@ This project is based on original rt-n56u with latest mtk 4.4.198 kernel, which 
 - Revise the MTD storage partition for 32M flash, the firmware size has no change as before, but the storage size can have more than 15MB.
 - Adding user/chinadns-ng , and fix shadowsocks + chinadns-ng using local domain whitellist.
 - Adding DNSProxy , Local DNS integrated with SS/SSR
+- FRP supported (dynamically loaded)
 
 #### Compile notes
 - Be careful: if you run the same workflow twice again , it could directly reload the previous `Makefile` from cache. 
