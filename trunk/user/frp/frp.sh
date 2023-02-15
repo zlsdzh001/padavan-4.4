@@ -30,7 +30,7 @@ down_frpc()
 	FRP_URL="https://opt.cn2qq.com/opt-file/frpc"
 	if [ ! -f "$frpc_path" ]; then
 		wget -t5 --timeout=60 --no-check-certificate -O $frpc_path $FRP_URL; 
-		if [ -f "$frpc_path" ]; then
+		if [ ! -f "$frpc_path" ]; then
 			logger -t "frp" "无法下载应用程序frpc，请确认网络正常，有充足的空间在/etc/storage/，请手工重启再试！"
 			echo "0"
 			return
@@ -47,7 +47,7 @@ down_frps()
 	FRP_URL="https://opt.cn2qq.com/opt-file/frps"
 	if [ ! -f "$frps_path" ]; then
 		wget -t5 --timeout=60 --no-check-certificate -O $frps_path $FRP_URL; 
-		if [ -f "$frps_path" ]; then
+		if [ ! -f "$frps_path" ]; then
 			logger -t "frp" "无法下载应用程序frps，请确认网络正常，有充足的空间在/etc/storage/，请手工重启再试！"
 			echo "0"
 			return
