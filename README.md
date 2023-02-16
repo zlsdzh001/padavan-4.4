@@ -14,6 +14,7 @@ This project is based on original rt-n56u with latest mtk 4.4.198 kernel, which 
 - Be careful: if you run the same workflow twice again , it could directly reload the previous `Makefile` from cache. 
   so if you made change of `Makefile` , you will have to run a new workfolow!!!
 
+<hr />
 
 **Below is all changes from [tsl0922/padavan](https://github.com/tsl0922/padavan)**
 
@@ -63,6 +64,7 @@ This project is based on original rt-n56u with latest mtk 4.4.198 kernel, which 
 - MI-R3P
 - R2100
 - XY-C1
+- NEWIFI (New added)
 
 # Compilation steps
 
