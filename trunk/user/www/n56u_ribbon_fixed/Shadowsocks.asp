@@ -379,9 +379,9 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 			html += '<br />';
 			html += '<iframe src="https://myip.ipip.net" height="30" scrolling="no" frameborder="0" marginheight="0" marginwidth="0"></iframe>';
 			html += '<br />';
-			html += '<span>国外：<iframe src="https://api.myip.la" height="30" scrolling="no" frameborder="0" marginheight="0" marginwidth="0" style="display:inline;width:220px;position:relative;top:4px;"></iframe></span>';
-			html += '<br />';
-			html += '<span>谷歌：<img src="https://www.google.com/favicon.ico?' + new Date().getTime() + '" /></span>';
+			html += '<span>国外：<iframe src="https://api.myip.la" height="30" scrolling="no" frameborder="0" marginheight="0" marginwidth="0" style="display:inline;width:50%;position:relative;top:4px;"></iframe></span>';
+			//html += '<br />';
+			html += '<span><img src="https://www.google.com/favicon.ico?' + new Date().getTime() + '" /></span>';
 			$("ss_status").innerHTML = html;
 		}
 		function fill_dns2tcp_status(status_code) {
@@ -1587,7 +1587,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 															style="color:#E53333;">若被编辑的节点正在运行使用，请完成后点击“应用设置”更新节点信息并重连</span>
 													</div>
 													<div><span
-															style="color:#E53333;">运行状态不会实时更新，启动节点后需等待一段时间手动刷新页面获取运行状态</span>
+															style="color:#E53333;">运行状态不会实时更新，启动节点后需等待一段时间手动 <input type="button" id="btn_reconnect" class="btn btn-info" value="刷新页面" onclick="window.location.reload();" tabindex="1"> 获取运行状态</span>
 													</div>
 												</div>
 												<table width="100%" cellpadding="4" cellspacing="0" class="table">
