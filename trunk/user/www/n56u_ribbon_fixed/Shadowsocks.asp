@@ -374,8 +374,15 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 				stext = "<#Stopped#>";
 			else if (status_code == 1)
 				stext = "<#Running#>";
-			$("ss_status").innerHTML = '<span class="label label-' + (status_code != 0 ? 'success' : 'warning') + '">' +
+			var html = '<span class="label label-' + (status_code != 0 ? 'success' : 'warning') + '">' +
 				stext + '</span>';
+			html += '<br />';
+			html += '<iframe src="https://myip.ipip.net" height="30" scrolling="no" frameborder="0" marginheight="0" marginwidth="0"></iframe>';
+			html += '<br />';
+			html += '<span>国外：<iframe src="https://api.myip.la" height="30" scrolling="no" frameborder="0" marginheight="0" marginwidth="0" style="display:inline;width:220px;position:relative;top:4px;"></iframe></span>';
+			html += '<br />';
+			html += '<span>谷歌：<img src="https://www.google.com/favicon.ico" /></span>';
+			$("ss_status").innerHTML = html;
 		}
 		function fill_dns2tcp_status(status_code) {
 			var stext = "Unknown";
@@ -1586,6 +1593,8 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 												<table width="100%" cellpadding="4" cellspacing="0" class="table">
 													<tr>
 														<th>客户端<#running_status#>
+															<br />
+															国内和国外的GeoIP和谷歌访问
 														</th>
 														<td id="ss_status"></td>
 													</tr>
