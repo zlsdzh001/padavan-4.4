@@ -343,10 +343,11 @@ start_dns() {
 	rm -f /tmp/china.ipset
 	case "$run_mode" in
 	router)
+		# 不论chinadns-ng打开与否，都重启dns_proxy
+		stop_dns_proxy
+		start_dns_proxy
 		if [ $ss_chdns = 1 ]; then
 			chinadnsng_enable_flag=1
-			stop_dns_proxy
-			start_dns_proxy
 			local_chnlist_file='/etc/storage/chinadns/chnlist_mini.txt'
 			if [ -f "$local_chnlist_file" ]; then
 			  log "启动chinadns分流，仅国外域名走DNS代理..."
@@ -355,13 +356,24 @@ start_dns() {
 			  log "启动chinadns分流，全部域名走DNS代理...本次不使用本地cdn域名文件$local_chnlist_file, 下次你自已可以创建它，文件中每行表示一个域名（不用要子域名）"
 			  chinadns-ng -b 0.0.0.0 -l 65353 -c $(nvram get china_dns) -t 127.0.0.1#5353 -4 china >/dev/null 2>&1 &
 			fi
+			# adding upstream chinadns-ng 
 			sed -i '/no-resolv/d' /etc/storage/dnsmasq/dnsmasq.conf
 			sed -i '/server=127.0.0.1/d' /etc/storage/dnsmasq/dnsmasq.conf
 			cat >> /etc/storage/dnsmasq/dnsmasq.conf << EOF
 no-resolv
 server=127.0.0.1#65353
 EOF
-    		fi
+		fi
+		# dnsmasq optimization
+		sed -i '/min-cache-ttl/d' /etc/storage/dnsmasq/dnsmasq.conf
+		sed -i '/dns-forward-max/d' /etc/storage/dnsmasq/dnsmasq.conf
+		cat >> /etc/storage/dnsmasq/dnsmasq.conf << EOF
+min-cache-ttl=1800
+dns-forward-max=1000
+EOF
+		# restart dnsmasq
+		killall dnsmasq
+		/user/sbin/dnsmasq >/dev/null 2>&1 &
 	;;
 	gfw)
 		dnsstr="$(nvram get tunnel_forward)"
