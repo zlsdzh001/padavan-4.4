@@ -381,7 +381,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 			html += '<br />';
 			html += '<span>国外：<iframe src="https://api.myip.la" height="30" scrolling="no" frameborder="0" marginheight="0" marginwidth="0" style="display:inline;width:220px;position:relative;top:4px;"></iframe></span>';
 			html += '<br />';
-			html += '<span>谷歌：<img src="https://www.google.com/favicon.ico" /></span>';
+			html += '<span>谷歌：<img src="https://www.google.com/favicon.ico?' + new Date().getTime() + '" /></span>';
 			$("ss_status").innerHTML = html;
 		}
 		function fill_dns2tcp_status(status_code) {
