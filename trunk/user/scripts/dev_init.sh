@@ -121,6 +121,9 @@ echo 1 >/sys/class/leds/blue\:status/brightness
 echo 0 >/sys/class/leds/green\:status/brightness
 echo 0 >/sys/class/leds/red\:status/brightness
 
+# clear cache for more memory
+echo 3 > /proc/sys/vm/drop_caches
+
 # perform start script
 if [ -x /etc/storage/start_script.sh ] ; then
 	/etc/storage/start_script.sh
