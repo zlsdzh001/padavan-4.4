@@ -3,13 +3,15 @@
 # Copyright (C) 2017 openwrt-ssr
 # Copyright (C) 2017 yushi studio <ywb94@qq.com>
 # Copyright (C) 2019 chongshengB
+# Copyright (c) 2023 simonchen
 #
 # This is free software, licensed under the GNU General Public License v3.
 # See /LICENSE for more information.
 #
+# Fix rule to not be removed, $TAG has wrongly added underscore(_) at beginning of $TAG
 modprobe xt_TPROXY
 modprobe xt_set
-TAG="_SS_SPEC_"   # comment tag
+TAG="SS_SPEC_"   # comment tag 
 ipt_n="iptables -t nat"  # alias of iptables
 ipt_m="iptables -t mangle"  # alias of iptables
 FWI=/tmp/shadowsocks_iptables.save  # firewall include file
