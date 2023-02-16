@@ -4,11 +4,11 @@
 # Copyright (C) 2017 yushi studio <ywb94@qq.com>
 # Copyright (C) 2018 lean <coolsnowwolf@gmail.com>
 # Copyright (C) 2019 chongshengB <bkye@vip.qq.com>
+# Copyright (C) 2023 simonchen
 #
 # This is free software, licensed under the GNU General Public License v3.
 # See /LICENSE for more information.
 #
-# changed by simonchen 2023
 
 NAME=shadowsocksr
 pppoemwan=`nvram get pppoemwan_enable`
@@ -91,7 +91,7 @@ cgroups_cleanup() {
 }
 
 gen_config_file() {
-	fastopen="false"
+	#fastopen="false"
 	case "$2" in
 	0) config_file=$CONFIG_FILE && local stype=$(nvram get d_type) ;;
 	1) config_file=$CONFIG_UDP_FILE && local stype=$(nvram get ud_type) ;;
@@ -247,7 +247,7 @@ start_redir_tcp() {
 		last_config_file=$CONFIG_FILE
 		pid_file="/tmp/ssr-retcp.pid"
 		for i in $(seq 1 $threads); do
-			run_bin $bin --reuse-port --fast-open -c $CONFIG_FILE $ARG_OTA -f /tmp/ssr-retcp_$i.pid
+			run_bin $bin -c $CONFIG_FILE $ARG_OTA -f /tmp/ssr-retcp_$i.pid
 			usleep 500000
 		done
 		redir_tcp=1
@@ -291,7 +291,7 @@ start_redir_udp() {
 			gen_config_file $UDP_RELAY_SERVER 1 1080
 			last_config_file=$CONFIG_UDP_FILE
 			pid_file="/var/run/ssr-reudp.pid"
-			run_bin $bin --reuse-port --fast-open -c $last_config_file $ARG_OTA -U -f /var/run/ssr-reudp.pid
+			run_bin $bin -c $last_config_file $ARG_OTA -U -f /var/run/ssr-reudp.pid
 			;;
 		v2ray)
 			gen_config_file $UDP_RELAY_SERVER 1
@@ -322,13 +322,18 @@ stop_dns_proxy() {
 start_dns_proxy() {
 	pdnsd_enable=$(nvram get pdnsd_enable) # 0: dnsproxy , 1: dns2tcp
 	pdnsd_enable_flag=$pdnsd_enable
+	dnsstr="$(nvram get tunnel_forward)"
+	dnsserver=$(echo "$dnsstr" | awk -F '#' '{print $1}')
 	if [ $pdnsd_enable = 1 ]; then
 	    log "启动 dns2tcp：5353 端口..."
-		dns2tcp -L"127.0.0.1#5353" -R"$(nvram get tunnel_forward)" >/dev/null 2>&1 &
+		# 将dnsserver (上游国外DNS: 比如 8.8.8.8) 放入ipset:gfwlist，强制走SS_SPEC_WAN_FW代理
+		ipset add gfwlist $dnsserver 2>/dev/null
+		dns2tcp -L"127.0.0.1#5353" -R"$dnsserver" >/dev/null 2>&1 &
 	elif [ $pdnsd_enable = 0 ]; then
-		remote_ip=`echo "$(nvram get tunnel_forward)" | awk -F '#' '{print $1}'`
 		log "启动 dnsproxy：5353 端口..."
-		dnsproxy -d -p 5353 -R $remote_ip >/dev/null 2>&1 &
+		# 将dnsserver (上游国外DNS: 比如 8.8.8.8) 放入ipset:gfwlist，强制走SS_SPEC_WAN_FW代理
+		ipset add gfwlist $dnsserver 2>/dev/null
+		dnsproxy -d -p 5353 -R $dnsserver >/dev/null 2>&1 &
 	else
 		log "DNS解析方式不支持该选项: $pdnsd_enable , 建议选择dnsproxy"
 	fi
@@ -343,7 +348,11 @@ start_dns() {
 	rm -f /tmp/china.ipset
 	case "$run_mode" in
 	router)
-		# 不论chinadns-ng打开与否，都重启dns_proxy
+
+		ipset add gfwlist $dnsserver 2>/dev/null
+		# 不论chinadns-ng打开与否，都重启dns_proxy 
+		# 原因是针对gfwlist ipset有一个专有的dnsmasq配置表（由ss-rule创建放在/tmp/dnsmasq.dom/gfwlist_list.conf)
+		# 需要查询上游dns_proxy在本地5353端口
 		stop_dns_proxy
 		start_dns_proxy
 		if [ $ss_chdns = 1 ]; then
@@ -437,7 +446,7 @@ start_local() {
 		[ ! -f "$bin" ] && log "Global_Socks5:Can't find $bin program, can't start!" && return 1
 		[ "$type" == "ssr" ] && name="ShadowsocksR"
 		gen_config_file $local_server 3 $s5_port
-		run_bin $bin --reuse-port --fast-open -c $CONFIG_SOCK5_FILE -u -f /var/run/ssr-local.pid
+		run_bin $bin -c $CONFIG_SOCK5_FILE -u -f /var/run/ssr-local.pid
 		log "Global_Socks5:$name Started!"
 		;;
 	v2ray)
