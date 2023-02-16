@@ -8,6 +8,7 @@ This project is based on original rt-n56u with latest mtk 4.4.198 kernel, which 
 - Adding user/chinadns-ng , and fix shadowsocks + chinadns-ng using local domain whitellist.
 - Adding DNSProxy , Local DNS integrated with SS/SSR
 - FRP supported (dynamically loaded)
+- Dnsmasq optimization specially for SS/SSR
 
 #### Compile notes
 - Be careful: if you run the same workflow twice again , it could directly reload the previous `Makefile` from cache. 
