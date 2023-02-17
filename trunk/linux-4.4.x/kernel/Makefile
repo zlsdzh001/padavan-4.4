@@ -43,7 +43,7 @@ obj-y += locking/
 obj-y += power/
 obj-y += printk/
 obj-y += irq/
-obj-y += rcu/
+#obj-y += rcu/
 obj-y += livepatch/
 
 obj-$(CONFIG_CHECKPOINT_RESTORE) += kcmp.o
