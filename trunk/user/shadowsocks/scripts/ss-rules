@@ -98,6 +98,7 @@ EOF
 	ipset -N china hash:net 2>/dev/null
 	$ipt_n -A SS_SPEC_WAN_AC -m set --match-set ss_spec_wan_ac dst -j RETURN
 	$ipt_n -A SS_SPEC_WAN_AC -m set --match-set china dst -j RETURN
+	$ipt_n -A SS_SPEC_WAN_AC -m set --match-set gfwlist dst -j SS_SPEC_WAN_FW # [2023-2-17] by simonchen (see below)
 	$ipt_n -A SS_SPEC_WAN_AC -m set --match-set gmlan src -m set ! --match-set china dst -j SS_SPEC_WAN_FW
 	$ipt_n -A SS_SPEC_WAN_AC -j SS_SPEC_WAN_FW
 	$ipt_n -I PREROUTING $SSNU -j SS_SPEC_WAN_AC
@@ -108,6 +109,10 @@ EOF
 	if [ ! -f "/tmp/dnsmasq.dom/gfwlist_list.conf" ] ; then
 	lua /etc_ro/ss/gfwcreate.lua
 	fi
+	# [2023-2-17] by simonchen
+	# 运行在router模式下也创建ipset:gfwlist
+	# 目的是将dnsmasq.dom/gfwlist_list.conf中查询出的ip加入，应用到iptables规则中
+	ipset -N gfwlist hash:net 2>/dev/null
 	elif [ "$RUNMODE" = "gfw" ] ;then
 	ipset -N gfwlist hash:net 2>/dev/null
 	$ipt_n -A SS_SPEC_WAN_AC -m set --match-set china dst -j RETURN
@@ -133,6 +138,8 @@ EOF
 	$ipt_n -I PREROUTING $SSNU -j SS_SPEC_WAN_AC
 
 	fi
+	# commented by simonchen
+	# 下面是自定义ip规则白名单和黑名单
 	ipset -N whitelist hash:net 2>/dev/null
 	ipset -N blacklist hash:net 2>/dev/null
 	cat /etc/storage/ss_dom.sh | grep -v '^!' | grep -v "^$" > /tmp/ss_dom.txt
