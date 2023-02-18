@@ -73,9 +73,7 @@ EXPORT_SYMBOL(avenrun); /* should be removed */
  */
 void get_avenrun(unsigned long *loads, unsigned long offset, int shift)
 {
-	int sum = 0;
-	for_each_possible_cpu(i)
-		sum += 1;
+	int sum = num_possible_cpus();
 	if (sum == 0) sum = 1;
 	
 	loads[0] = ((avenrun[0] + offset) << shift) / sum;
