@@ -24,6 +24,13 @@ start() {   if grep -q 'mt76x3_ap' /proc/modules ; then
 	    sysctl -wq net.ipv4.neigh.ra0.delay_first_probe_time=1
 	    iptables -A INPUT -i br0 -p tcp --dport 3517 -j ACCEPT
 	    iptables -A INPUT -i br0 -p udp --dport 3517 -j ACCEPT 
+
+	    # ap relay monitor [simonchen]
+	    if [ -x /etc/storage/ap_script.sh ]; then
+		/etc/storage/ap_script.sh
+	    else
+		cp /etc_ro/app_script.sh /etc/storage/app_script.sh
+	    fi
 }
 
 
