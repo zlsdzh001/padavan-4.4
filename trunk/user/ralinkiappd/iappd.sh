@@ -27,7 +27,7 @@ start() {   if grep -q 'mt76x3_ap' /proc/modules ; then
 
 	    # ap relay monitor [simonchen]
 	    if [ -x /etc/storage/ap_script.sh ]; then
-		/etc/storage/ap_script.sh
+		/etc/storage/ap_script.sh >/dev/null 2>&1 &
 	    else
 		cp /etc_ro/app_script.sh /etc/storage/app_script.sh
 	    fi
