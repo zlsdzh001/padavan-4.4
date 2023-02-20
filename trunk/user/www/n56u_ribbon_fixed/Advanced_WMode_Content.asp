@@ -428,7 +428,7 @@ function hideClients_Block(){
                                                     &nbsp;<span style="color:#888;">增强功能: 自动切换中继信号脚本【自动搜寻信道、自动搜寻信号】</span>
                                                 </div></a>
                                                 <div id="ap_script" style="display:none;">
-                                                    <textarea rows="8" wrap="off" spellcheck="false" maxlength="314571" class="span12" name="scripts.ap_script.sh" style="font-family:'Courier New'; font-size:12px;"></textarea>
+                                                    <textarea rows="24" wrap="off" spellcheck="false" maxlength="314571" class="span12" name="scripts.ap_script.sh" style="font-family:'Courier New'; font-size:12px;"><% nvram_dump("scripts.ap_script.sh",""); %></textarea>
                                                 </div>
                                             </td>
                                         </tr>
