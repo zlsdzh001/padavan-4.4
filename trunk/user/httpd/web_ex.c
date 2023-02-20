@@ -901,6 +901,14 @@ validate_asp_apply(webs_t wp, int sid)
 			} else if (!strncmp(v->name, "scripts.", 8)) {
 				if (write_textarea_to_file(value, STORAGE_SCRIPTS_DIR, file_name))
 					restart_needed_bits |= event_mask;
+				if ((restart_needed_bits & EVM_RESTART_WIFI5) == 1)
+				{
+					wl_modified |= WIFI_COMMON_CHANGE_BIT;
+				}
+				if (restart_needed_bits & EVM_RESTART_WIFI2) == 1)
+				{
+					rt_modified |= WIFI_COMMON_CHANGE_BIT;
+				}
 			} else if (!strncmp(v->name, "crontab.", 8)) {
 				if (write_textarea_to_file(value, STORAGE_CRONTAB_DIR, nvram_safe_get("http_username")))
 					restart_needed_bits |= event_mask;
@@ -920,12 +928,7 @@ validate_asp_apply(webs_t wp, int sid)
 					restart_needed_bits |= event_mask;
 			}
 #endif
-			if ((restart_needed_bits & EVM_RESTART_WIFI5) == 0 &&
-			 (restart_needed_bits & EVM_RESTART_WIFI2) == 0)
-			{
-				continue; // except to wifi2/5 
-			}
-			//continue;
+			continue;
 		}
 		
 		/* check NVRAM value is changed */
