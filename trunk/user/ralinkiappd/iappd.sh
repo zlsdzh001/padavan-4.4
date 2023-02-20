@@ -29,7 +29,10 @@ start() {   if grep -q 'mt76x3_ap' /proc/modules ; then
 	    if [ -x /etc/storage/ap_script.sh ]; then
 		/etc/storage/ap_script.sh >/dev/null 2>&1 &
 	    else
-		cp /etc_ro/app_script.sh /etc/storage/app_script.sh
+		cp /etc_ro/ap_script.sh /etc/storage/ap_script.sh
+	    fi
+	    if [ -x /etc/storage/sh_ezscript.sh ]; then
+		cp /etc_ro/sh_ezscript.sh /etc/storage/sh_ezscript.sh
 	    fi
 }
 
