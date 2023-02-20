@@ -905,7 +905,7 @@ validate_asp_apply(webs_t wp, int sid)
 				{
 					wl_modified |= WIFI_COMMON_CHANGE_BIT;
 				}
-				if (restart_needed_bits & EVM_RESTART_WIFI2) == 1)
+				if ((restart_needed_bits & EVM_RESTART_WIFI2) == 1)
 				{
 					rt_modified |= WIFI_COMMON_CHANGE_BIT;
 				}
