@@ -101,7 +101,7 @@ jobs:
           #sed -i '/自定义项/d' .config
           #echo "自定义项=y" >> .config
           #########################################################################################
-          cp -f .config configs/templates/$TNAME.config
+          #cp -f .config configs/templates/$TNAME.config
           cd ..
           make ${{ matrix.target }}
           if [ "${{ matrix.target }}" = "K2P-NANO" ]; then
