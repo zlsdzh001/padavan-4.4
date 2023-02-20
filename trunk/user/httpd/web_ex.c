@@ -920,7 +920,12 @@ validate_asp_apply(webs_t wp, int sid)
 					restart_needed_bits |= event_mask;
 			}
 #endif
-			continue;
+			if ((restart_needed_bits & EVM_RESTART_WIFI5) == 0 &&
+			 (restart_needed_bits & EVM_RESTART_WIFI2) == 0)
+			{
+				continue; // except to wifi2/5 
+			}
+			//continue;
 		}
 		
 		/* check NVRAM value is changed */
