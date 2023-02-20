@@ -51,7 +51,7 @@ clean:
 
 .PHONY: $(PRODUCTS)
 $(PRODUCTS):
-	cp -f $(TEMPLATE_DIR)/$(@).config $(CONFIG)
+	#cp -f $(TEMPLATE_DIR)/$(@).config $(CONFIG)
 	@echo "CONFIG_CROSS_COMPILER_ROOT=$(TOOLCHAIN_ROOT)" >> $(CONFIG)
 	@echo "CONFIG_CCACHE=y" >> $(CONFIG)
 	@make build
