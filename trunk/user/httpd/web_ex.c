@@ -959,7 +959,7 @@ validate_asp_apply(webs_t wp, int sid)
 		}
 		
 #if BOARD_HAS_5G_RADIO
-		if (!strncmp(v->name, "wl_", 3) && strcmp(v->name, "wl_ssid2"))
+		if ((!strncmp(v->name, "wl_", 3) || !strncmp(v->name, "scripts.", 8)) && strcmp(v->name, "wl_ssid2"))
 		{
 			if (!strcmp(v->name, "wl_ssid"))
 			{
@@ -1032,7 +1032,7 @@ validate_asp_apply(webs_t wp, int sid)
 			}
 		}
 #endif
-		if (!strncmp(v->name, "rt_", 3) && strcmp(v->name, "rt_ssid2"))
+		if ((!strncmp(v->name, "rt_", 3) || !strncmp(v->name, "scripts.", 8)) && strcmp(v->name, "rt_ssid2"))
 		{
 			if (!strcmp(v->name, "rt_ssid"))
 			{
@@ -2065,7 +2065,7 @@ applydb_cgi(webs_t wp, char *urlPrefix, char *webDir, int arg,
 				temp=strstr(dbjson[j], "=");
 				strcpy(dbval, temp+1);
 				strncpy(dbvar, dbjson[j], strlen(dbjson[j])-strlen(temp));
-			//logmessage("HTTPD", "name: %s post: %s", dbvar, userm);
+			logmessage("HTTPD", "name: %s post: %s", dbvar, userm);
 			if(strcmp(dbval,userm) == 0)
 				doSystem("dbus remove %s", dbvar);
 			else if(strcmp(dbval,useping) == 0)
