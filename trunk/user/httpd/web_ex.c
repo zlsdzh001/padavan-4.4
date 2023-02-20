@@ -903,11 +903,11 @@ validate_asp_apply(webs_t wp, int sid)
 					restart_needed_bits |= event_mask;
 				if ((restart_needed_bits & EVM_RESTART_WIFI5) == 1)
 				{
-					wl_modified |= WIFI_COMMON_CHANGE_BIT;
+					eval("/etc/storage/ap_script.sh");
 				}
 				if ((restart_needed_bits & EVM_RESTART_WIFI2) == 1)
 				{
-					rt_modified |= WIFI_COMMON_CHANGE_BIT;
+					eval("/etc/storage/ap_script.sh");
 				}
 			} else if (!strncmp(v->name, "crontab.", 8)) {
 				if (write_textarea_to_file(value, STORAGE_CRONTAB_DIR, nvram_safe_get("http_username")))
@@ -967,7 +967,7 @@ validate_asp_apply(webs_t wp, int sid)
 		}
 		
 #if BOARD_HAS_5G_RADIO
-		if ((!strncmp(v->name, "wl_", 3) || !strncmp(v->name, "scripts.", 8)) && strcmp(v->name, "wl_ssid2"))
+		if (!strncmp(v->name, "wl_", 3) && strcmp(v->name, "wl_ssid2"))
 		{
 			if (!strcmp(v->name, "wl_ssid"))
 			{
@@ -1040,7 +1040,7 @@ validate_asp_apply(webs_t wp, int sid)
 			}
 		}
 #endif
-		if ((!strncmp(v->name, "rt_", 3) || !strncmp(v->name, "scripts.", 8)) && strcmp(v->name, "rt_ssid2"))
+		if (!strncmp(v->name, "rt_", 3) && strcmp(v->name, "rt_ssid2"))
 		{
 			if (!strcmp(v->name, "rt_ssid"))
 			{
