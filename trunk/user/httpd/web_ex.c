@@ -901,11 +901,8 @@ validate_asp_apply(webs_t wp, int sid)
 			} else if (!strncmp(v->name, "scripts.", 8)) {
 				if (write_textarea_to_file(value, STORAGE_SCRIPTS_DIR, file_name))
 					restart_needed_bits |= event_mask;
-				if ((restart_needed_bits & EVM_RESTART_WIFI5) == 1)
-				{
-					eval("/etc/storage/ap_script.sh");
-				}
-				if ((restart_needed_bits & EVM_RESTART_WIFI2) == 1)
+				if (!strcmp(file_name, "ap_script.sh") && 
+				    ((restart_needed_bits & EVM_RESTART_WIFI5) != 0 || (restart_needed_bits & EVM_RESTART_WIFI2) != 0))
 				{
 					eval("/etc/storage/ap_script.sh");
 				}
