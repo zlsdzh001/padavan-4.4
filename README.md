@@ -2,13 +2,14 @@
 
 This project is based on original rt-n56u with latest mtk 4.4.198 kernel, which is fetch from D-LINK GPL code.
 
-#### Extra fixes / changes
+#### Extra functions / changes
 - Tune kernel configs (for NEWIFI / K2P only)
 - Decline the load average make more old apps running well.
 - Revise the MTD storage partition for 16M flash, the firmware size must be less than 10MB as possible.
 - Revise the MTD storage partition for 32M flash, the firmware size has no change as before, but the storage size can have more than 15MB.
 - Adding user/chinadns-ng , and fix shadowsocks + chinadns-ng using local domain whitellist.
 - FRP supported (dynamically loaded)
+- AP relay auto-daemon
 
 
 #### SS/SSR
