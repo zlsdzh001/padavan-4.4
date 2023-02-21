@@ -45,13 +45,14 @@ cat >/tmp/ap2g5g.txt <<-\EOF
 
 
 EOF
-rt_mode_x=$(nvram get rt_mode_x)
-wl_mode_x=$(nvram get wl_mode_x)
-if [[ $rt_mode_x > 2 || $wl_mode_x > 2 ]]; then
+
+rt_mode_x=`nvram get rt_mode_x`
+wl_mode_x=`nvram get wl_mode_x`
+if [ $rt_mode_x -gt 2 ] || [ $wl_mode_x -gt 2 ]; then
 cat /tmp/ap2g5g.txt | grep -v '^#'  | grep -v "^$" > /tmp/ap2g5g
 fi
 killall sh_apauto.sh
-if [ -s /tmp/ap2g5g ] ; then
+if [ -f /tmp/ap2g5g ] ; then
 cat >/tmp/sh_apauto.sh <<-\EOF
 #!/bin/sh
 [ "$1" = "crontabs" ] && sleep 15
