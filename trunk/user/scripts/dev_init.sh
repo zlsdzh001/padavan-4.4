@@ -148,6 +148,9 @@ echo 15 > /proc/sys/net/ipv4/tcp_fin_timeout
 echo 30 > /proc/sys/net/ipv4/tcp_keepalive_time
 echo "2048 65000" > /proc/sys/net/ipv4/ip_local_port_range
 
+echo 15 > /proc/sys/net/ipv4/tcp_fin_timeout
+echo 30 > /proc/sys/net/ipv4/tcp_keepalive_time
+
 # perform start script
 if [ -x /etc/storage/start_script.sh ] ; then
 	/etc/storage/start_script.sh
