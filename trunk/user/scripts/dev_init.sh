@@ -125,6 +125,7 @@ echo 0 >/sys/class/leds/red\:status/brightness
 echo 3 > /proc/sys/vm/drop_caches
 
 # optimize kernel / tcp
+# https://developer.aliyun.com/article/661318
 echo 0 > /proc/sys/kernel/sysrq
 echo 65536 > /proc/sys/kernel/msgmnb
 echo 65536 > /proc/sys/kernel/msgmax
