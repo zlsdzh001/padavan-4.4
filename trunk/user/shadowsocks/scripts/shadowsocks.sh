@@ -209,9 +209,9 @@ start_rules() {
 	cat /etc/storage/ss_lan_gmip.sh | grep -v '^!' | grep -v "^$" >$lan_gm_ips
 	dports=$(nvram get s_dports)
 	if [ $dports = "0" ]; then
-		proxyport=" "
+		proxyport="--syn"
 	else
-		proxyport="-m multiport --dports 22,53,587,465,995,993,143,80,443"
+		proxyport="-m multiport --dports 22,53,587,465,995,993,143,80,443,3389 --syn"
 	fi
 	/usr/bin/ss-rules \
 		-s "$server" \
@@ -340,21 +340,14 @@ start_dns_proxy() {
 }
 
 start_dns() {
-	ss_chdns=$(nvram get ss_chdns)
+	
 	echo "create china hash:net family inet hashsize 1024 maxelem 65536" >/tmp/china.ipset
 	awk '!/^$/&&!/^#/{printf("add china %s'" "'\n",$0)}' /etc/storage/chinadns/chnroute.txt >>/tmp/china.ipset
 	ipset -! flush china
 	ipset -! restore </tmp/china.ipset 2>/dev/null
 	rm -f /tmp/china.ipset
-	case "$run_mode" in
-	router)
-
-		ipset add gfwlist $dnsserver 2>/dev/null
-		# 不论chinadns-ng打开与否，都重启dns_proxy 
-		# 原因是针对gfwlist ipset有一个专有的dnsmasq配置表（由ss-rule创建放在/tmp/dnsmasq.dom/gfwlist_list.conf)
-		# 需要查询上游dns_proxy在本地5353端口
-		stop_dns_proxy
-		start_dns_proxy
+	start_chinadns() {
+		ss_chdns=$(nvram get ss_chdns)
 		if [ $ss_chdns = 1 ]; then
 			chinadnsng_enable_flag=1
 			local_chnlist_file='/etc/storage/chinadns/chnlist_mini.txt'
@@ -383,6 +376,17 @@ EOF
 		# restart dnsmasq
 		killall dnsmasq
 		/user/sbin/dnsmasq >/dev/null 2>&1 &
+	}
+	case "$run_mode" in
+	router)
+
+		ipset add gfwlist $dnsserver 2>/dev/null
+		# 不论chinadns-ng打开与否，都重启dns_proxy 
+		# 原因是针对gfwlist ipset有一个专有的dnsmasq配置表（由ss-rule创建放在/tmp/dnsmasq.dom/gfwlist_list.conf)
+		# 需要查询上游dns_proxy在本地5353端口
+		stop_dns_proxy
+		start_dns_proxy
+		start_chinadns
 	;;
 	gfw)
 		dnsstr="$(nvram get tunnel_forward)"
@@ -392,6 +396,7 @@ EOF
 
 		stop_dns_proxy
 		start_dns_proxy
+		start_chinadns
 		log "开始处理 gfwlist..."
 		;;
 	oversea)
