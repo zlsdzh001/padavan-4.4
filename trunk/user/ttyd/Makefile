@@ -37,5 +37,6 @@ clean:
 	rm -f config_done
 
 romfs:
+	$(STRIP) $(THISDIR)/$(SRC_NAME)/build/ttyd
 	$(ROMFSINST) $(THISDIR)/$(SRC_NAME)/build/ttyd /usr/bin/ttyd
 	$(ROMFSINST) $(THISDIR)/ttyd.sh /usr/bin/ttyd.sh
