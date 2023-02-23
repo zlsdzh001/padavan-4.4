@@ -307,7 +307,7 @@ endif
 EXTRA_CFLAGS += -DEEPROM_COUNTRY_UNLOCK
 
 # provide external Flash memory support
-EXTRA_CFLAGS += -DRTMP_FLASH_SUPPORT
+### EXTRA_CFLAGS += -DRTMP_FLASH_SUPPORT
 
 # provide internal eFuse memory support
 #EXTRA_CFLAGS += -DRTMP_EFUSE_SUPPORT -DCAL_FREE_IC_SUPPORT

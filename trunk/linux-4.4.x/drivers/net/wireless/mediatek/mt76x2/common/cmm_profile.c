@@ -5100,7 +5100,7 @@ BOOLEAN RTMP_CardInfoRead(
 	}
 
 	/* get MAC address*/
-#if 0 //def RTMP_FLASH_SUPPORT
+#ifdef RTMP_FLASH_SUPPORT
 	RtmpFlashRead(&mac_maybe[0][0], 0x40000 + 0x04, MAC_ADDR_LEN);
 	RtmpFlashRead(&mac_maybe[1][0], 0x48000 + 0x04, MAC_ADDR_LEN);
 	DBGPRINT(RT_DEBUG_TRACE, ("mac addr1 in flash=%02x:%02x:%02x:%02x:%02x:%02x!\n", PRINT_MAC(mac_maybe[0])));

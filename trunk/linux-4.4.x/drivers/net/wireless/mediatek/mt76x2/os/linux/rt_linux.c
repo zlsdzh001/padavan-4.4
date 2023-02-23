@@ -282,8 +282,7 @@ NDIS_STATUS os_free_mem(
 	return NDIS_STATUS_SUCCESS;
 }
 
-//#if defined(RTMP_RBUS_SUPPORT) || defined(RTMP_FLASH_SUPPORT)
-#if 0
+#if defined(RTMP_RBUS_SUPPORT) || defined(RTMP_FLASH_SUPPORT)
 extern int ra_mtd_write_nm(char *name, loff_t to, size_t len, const u_char *buf);
 extern int ra_mtd_read_nm(char *name, loff_t from, size_t len, u_char *buf);
 
