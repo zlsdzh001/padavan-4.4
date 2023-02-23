@@ -60,7 +60,7 @@ int wl_proc_exit(void);
 #define PROCREG_DIR             "rt2880"
 #endif /* PROCREG_DIR */
 
-#ifdef CONFIG_PROC_FS
+#ifdef 0 //CONFIG_PROC_FS
 extern struct proc_dir_entry *procRegDir;
 
 #ifdef VIDEO_TURBINE_SUPPORT

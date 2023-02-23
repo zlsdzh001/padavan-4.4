@@ -38,8 +38,8 @@
 #include <linux/rtnetlink.h>
 
 #if defined(CONFIG_RA_HW_NAT) || defined(CONFIG_RA_HW_NAT_MODULE)
-#include "../../../../../../../net/nat/hw_nat/ra_nat.h"
-#include "../../../../../../../net/nat/hw_nat/frame_engine.h"
+#include "../../../../../../../net/nat/hw_nat_old/ra_nat.h"
+#include "../../../../../../../net/nat/hw_nat_old/frame_engine.h"
 #endif
 
 /* TODO */
@@ -282,8 +282,8 @@ NDIS_STATUS os_free_mem(
 	return NDIS_STATUS_SUCCESS;
 }
 
-#if defined(RTMP_RBUS_SUPPORT) || defined(RTMP_FLASH_SUPPORT)
-
+//#if defined(RTMP_RBUS_SUPPORT) || defined(RTMP_FLASH_SUPPORT)
+#ifdef 0
 extern int ra_mtd_write_nm(char *name, loff_t to, size_t len, const u_char *buf);
 extern int ra_mtd_read_nm(char *name, loff_t from, size_t len, u_char *buf);
 
