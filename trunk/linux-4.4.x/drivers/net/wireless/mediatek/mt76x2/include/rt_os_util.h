@@ -680,7 +680,7 @@ void linux_pci_unmap_single(void *pPciDev, ra_dma_addr_t dma_addr, size_t size, 
 
 /* ============================ rt_usb_util.c =============================== */
 
-#if defined(RTMP_RBUS_SUPPORT) || defined(RTMP_FLASH_SUPPORT)
+#if 0 //defined(RTMP_RBUS_SUPPORT) || defined(RTMP_FLASH_SUPPORT)
 void RtmpFlashRead(
 	UCHAR * p,
 	ULONG a,

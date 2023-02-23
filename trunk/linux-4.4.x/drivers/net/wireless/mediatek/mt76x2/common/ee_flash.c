@@ -26,7 +26,7 @@
 	--------    ----------    ----------------------------------------------
 */
 
-#ifdef RTMP_FLASH_SUPPORT
+#if 0 //def RTMP_FLASH_SUPPORT
 
 #include	"rt_config.h"
 
