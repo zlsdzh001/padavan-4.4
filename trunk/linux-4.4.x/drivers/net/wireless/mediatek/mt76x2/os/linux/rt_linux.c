@@ -284,17 +284,15 @@ NDIS_STATUS os_free_mem(
 
 #if defined(RTMP_RBUS_SUPPORT) || defined(RTMP_FLASH_SUPPORT)
 
-int mt_mtd_write_nm_wifi(char *name, loff_t to, size_t len, const u_char *buf);
-int mt_mtd_read_nm_wifi(char *name, loff_t from, size_t len, u_char *buf);
-#define flash_read(_ctrl, _ptr, _offset, _len) mt_mtd_read_nm_wifi("Factory", _offset, (size_t)_len, _ptr)
-#define flash_write(_ctrl, _ptr, _offset, _len) mt_mtd_write_nm_wifi("Factory", _offset, (size_t)_len, _ptr)
+extern int ra_mtd_write_nm(char *name, loff_t to, size_t len, const u_char *buf);
+extern int ra_mtd_read_nm(char *name, loff_t from, size_t len, u_char *buf);
 
 void RtmpFlashRead(
 	UCHAR *p,
 	ULONG a,
 	ULONG b)
 {
-	flash_read("Factory", p, a, b);
+	ra_mtd_read_nm("Factory", a&0xFFFF, (size_t) b, p);
 }
 
 void RtmpFlashWrite(
@@ -302,7 +300,7 @@ void RtmpFlashWrite(
 	ULONG a,
 	ULONG b)
 {
-	flash_write("Factory",p, a, b);
+	ra_mtd_write_nm("Factory", a&0xFFFF, (size_t) b, p);
 }
 #endif /* defined(RTMP_RBUS_SUPPORT) || defined(RTMP_FLASH_SUPPORT) */
 

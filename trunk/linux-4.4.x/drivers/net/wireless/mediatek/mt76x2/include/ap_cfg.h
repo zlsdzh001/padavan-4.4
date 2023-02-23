@@ -4,10 +4,6 @@
 
 #include "rt_config.h"
 
-#ifdef CONFIG_RA_HW_NAT_WIFI_NEW_ARCH
-INT set_hnat_register(RTMP_ADAPTER *pAd, PSTRING *arg);
-#endif /* (CONFIG_RA_HW_NAT_WIFI_NEW_ARCH) */
-
 INT RTMPAPPrivIoctlSet(
 	IN RTMP_ADAPTER *pAd, 
 	IN RTMP_IOCTL_INPUT_STRUCT *pIoctlCmdStr);
@@ -191,6 +187,7 @@ INT	ApCfg_Set_MaxStaNum_Proc(
 INT	ApCfg_Set_IdleTimeout_Proc(
 	IN	PRTMP_ADAPTER	pAd, 
 	IN	PSTRING			arg);
+
 
 #ifdef APCLI_SUPPORT
 #ifdef APCLI_WPA_SUPPLICANT_SUPPORT

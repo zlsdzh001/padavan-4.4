@@ -73,11 +73,7 @@ INT WdsVirtualIF_open(PNET_DEV dev)
 
 	/* increase MODULE use count */
 	RT_MOD_INC_USE_COUNT();
-
-#ifdef CONFIG_RA_HW_NAT_WIFI_NEW_ARCH
-	RT_MOD_HNAT_REG(dev);
-#endif
-
+	
 	RTMP_OS_NETDEV_START_QUEUE(dev);
 	return 0;
 }
@@ -96,10 +92,6 @@ INT WdsVirtualIF_close(PNET_DEV dev)
 	RTMP_OS_NETDEV_STOP_QUEUE(dev);
 	
 	VIRTUAL_IF_DOWN(pAd);
-
-#ifdef CONFIG_RA_HW_NAT_WIFI_NEW_ARCH
-	RT_MOD_HNAT_DEREG(dev);
-#endif
 
 	RT_MOD_DEC_USE_COUNT();
 

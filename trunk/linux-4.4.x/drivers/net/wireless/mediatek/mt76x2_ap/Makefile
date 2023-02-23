@@ -273,18 +273,18 @@ $(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/os/linux/cfg80211/cfg80211_util.o
 $(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/os/linux/cfg80211/cfg80211.o
 endif
 
-
+ifeq ($(CONFIG_RT_DEBUG),y)
 $(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/sys_log.o
-
+endif
 
 ###################
 #  CFLAGS
 ##################
 
 EXTRA_CFLAGS  = -Wall -Wstrict-prototypes -Wno-trigraphs -Wno-unused -Wno-declaration-after-statement
-EXTRA_CFLAGS += -Idrivers/net/wireless/mediatek/$(RT_DRV_DIR)/include
+EXTRA_CFLAGS += -Idrivers/net/wireless/ralink/$(RT_DRV_DIR)/include
 ifeq ($(CONFIG_RT_ATE),y)
-EXTRA_CFLAGS += -Idrivers/net/wireless/mediatek/$(RT_DRV_DIR)/ate/include
+EXTRA_CFLAGS += -Idrivers/net/wireless/ralink/$(RT_DRV_DIR)/ate/include
 endif
 EXTRA_CFLAGS += -DAGGREGATION_SUPPORT -DPIGGYBACK_SUPPORT -DWMM_SUPPORT -DLINUX
 EXTRA_CFLAGS += -DCONFIG_AP_SUPPORT -DUAPSD_SUPPORT -DDOT11_N_SUPPORT -DDOT1X_SUPPORT
@@ -386,10 +386,10 @@ ifeq ($(CONFIG_RT_READ_MAC_FROM_MTD),y)
 EXTRA_CFLAGS += -DREAD_MAC_FROM_EEPROM
 endif
 
-#Remove DBG UAPSD_DEBUG
-#EXTRA_CFLAGS += -DDBG -DUAPSD_DEBUG
+ifeq ($(CONFIG_RT_DEBUG),y)
+EXTRA_CFLAGS += -DDBG -DUAPSD_DEBUG
 #EXTRA_CFLAGS += -DDBG_DIAGNOSE -DDBG_RX_MCS -DDBG_TX_MCS
-
+endif
 
 ifeq ($(CONFIG_RT_ATE),y)
 EXTRA_CFLAGS += -DRALINK_ATE -DCONFIG_RT2880_ATE_CMD_NEW

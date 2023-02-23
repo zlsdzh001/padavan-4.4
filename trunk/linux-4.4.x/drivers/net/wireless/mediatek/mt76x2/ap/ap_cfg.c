@@ -157,8 +157,6 @@ COUNTRY_CODE_TO_COUNTRY_REGION allCountry[] = {
 #define NUM_OF_COUNTRIES	(sizeof(allCountry)/sizeof(COUNTRY_CODE_TO_COUNTRY_REGION))
 
 
-
-
 INT Set_CountryString_Proc(
 	IN	PRTMP_ADAPTER	pAd, 
 	IN	PSTRING			arg);
@@ -1240,9 +1238,6 @@ static struct {
 	{"ApCliWmmEnable",				Set_ApCli_WMM_Enable_Proc},	
 #endif /* APCLI_CERT_SUPPORT */
 #endif /* APCLI_SUPPORT */
-#ifdef CONFIG_RA_HW_NAT_WIFI_NEW_ARCH
-	{"hw_nat_register", set_hnat_register},
-#endif /* (CONFIG_RA_HW_NAT_WIFI_NEW_ARCH) */
 #ifdef WSC_AP_SUPPORT
 	{"WscConfMode",				Set_AP_WscConfMode_Proc},
 	{"WscConfStatus",				Set_AP_WscConfStatus_Proc},
@@ -1771,42 +1766,6 @@ INT RTMPAPPrivIoctlSet(
 	return Status;
 }
 
-#ifdef CONFIG_RA_HW_NAT_WIFI_NEW_ARCH
-INT set_hnat_register(RTMP_ADAPTER *pAd, PSTRING *arg)
-{
-	UINT32 reg_en;
-	INT idx;
-	struct wifi_dev *wdev;
-
-	reg_en = simple_strtol(arg, 0, 10);
-	DBGPRINT(RT_DEBUG_TRACE, ("Device Instance\n"));
-	for (idx = 0; idx < WDEV_NUM_MAX; idx++) {
-		DBGPRINT(RT_DEBUG_TRACE, ("\tWDEV %02d:", idx));
-		if (pAd->wdev_list[idx]) {
-			wdev = pAd->wdev_list[idx];
-			DBGPRINT(RT_DEBUG_TRACE, ("\n\t\tName:%s\n",
-					RTMP_OS_NETDEV_GET_DEVNAME(wdev->if_dev)));
-			DBGPRINT(RT_DEBUG_TRACE, ("\t\tWdev(list) Idx:%d\n", wdev->wdev_idx));
-			DBGPRINT(RT_DEBUG_TRACE,
-					("\t\t Idx:%d\n", RtmpOsGetNetIfIndex(wdev->if_dev)));
-#if !defined(CONFIG_RA_NAT_NONE)
-#ifdef CONFIG_RA_HW_NAT_WIFI_NEW_ARCH
-			if (ppe_dev_unregister_hook != NULL &&
-					ppe_dev_register_hook != NULL) {
-				if (reg_en)
-					ppe_dev_register_hook(wdev->if_dev);
-				else
-					ppe_dev_unregister_hook(wdev->if_dev);
-			}
-#endif
-#endif
-		} else {
-			DBGPRINT(RT_DEBUG_TRACE, ("\n"));
-		}
-	}
-		return TRUE;
-}
-#endif /* (CONFIG_RA_HW_NAT_WIFI_NEW_ARCH) */
 
 INT RTMPAPPrivIoctlShow(
 	IN RTMP_ADAPTER *pAd, 
@@ -12535,8 +12494,6 @@ static  INT WscPushConcurrentPBCAction(
 	return TRUE;
 }
 #endif /* CON_WPS */
-
-
 
 INT	 Set_AP_WscConfMode_Proc(
 	IN	PRTMP_ADAPTER	pAd, 
