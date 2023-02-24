@@ -1887,6 +1887,7 @@ INT RTMPAPSetInformation(
 
 
 	POS_COOKIE	pObj = (POS_COOKIE) pAd->OS_Cookie;
+	UCHAR apidx = pObj->ioctl_if;
 	
 	switch(cmd & 0x7FFF)
 	{
@@ -4937,7 +4938,6 @@ INT RTMPAPQueryInformation(
 #ifdef LLTD_SUPPORT
         case RT_OID_GET_LLTD_ASSO_TABLE:
             DBGPRINT(RT_DEBUG_TRACE, ("Query::Get LLTD association table\n"));
-			UCHAR apidx = pObj->ioctl_if;
             if ((wrq->u.data.pointer == NULL) || (apidx != MAIN_MBSSID))
             {
                 Status = -EFAULT;
@@ -4987,7 +4987,6 @@ INT RTMPAPQueryInformation(
 #endif /* DOT1X_SUPPORT */			
 
 		case RT_OID_802_11_MAC_ADDRESS:
-			UCHAR apidx = pObj->ioctl_if;
             wrq->u.data.length = MAC_ADDR_LEN;
             Status = copy_to_user(wrq->u.data.pointer, &pAd->ApCfg.MBSSID[apidx].wdev.bssid, wrq->u.data.length);
 			break;
@@ -5257,7 +5256,6 @@ INT RTMPAPQueryInformation(
 
 		case OID_802_11_MCAST_KEY_INFO:
 			{
-				UCHAR apidx = pObj->ioctl_if;
 				PMULTISSID_STRUCT pMbss;
 				WAPI_MCAST_KEY_STRUCT   wapi_mkey;
 
@@ -5331,7 +5329,6 @@ INT RTMPAPQueryInformation(
 
 			
 		case HOSTAPD_OID_GET_SEQ:/*report txtsc to hostapd. */
-			UCHAR apidx = pObj->ioctl_if;
 			pMbss = &pAd->ApCfg.MBSSID[apidx];
 			if (wrq->u.data.length != sizeof(ik))
 			{
@@ -5353,7 +5350,6 @@ INT RTMPAPQueryInformation(
 
 			
 		case HOSTAPD_OID_GET_1X_GROUP_KEY:/*report default group key to hostapd. */
-			UCHAR apidx = pObj->ioctl_if;
 			pMbss = &pAd->ApCfg.MBSSID[apidx];
 			if (wrq->u.data.length != sizeof(group_key))
 			{
@@ -5920,7 +5916,6 @@ INT RTMPAPQueryInformation(
 			break;
 #endif
    		default:
-			UCHAR apidx = pObj->ioctl_if;
 			DBGPRINT(RT_DEBUG_TRACE, ("Query::unknown IOCTL's subcmd = 0x%08x, apidx=%d\n", cmd, apidx));
 			Status = -EOPNOTSUPP;
 			break;
