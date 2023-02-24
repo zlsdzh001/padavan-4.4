@@ -300,6 +300,19 @@ struct iw_statistics *rt28xx_get_wireless_stats(
 #define FIFO_RSV_FOR_HIGH_PRIORITY 	64
 #endif /* DATA_QUEUE_RESERVE */
 
+#ifdef CONFIG_RA_HW_NAT_WIFI_NEW_ARCH
+#define RT_MOD_HNAT_DEREG(_net_dev) \
+do { \
+	if (ppe_dev_unregister_hook != NULL) \
+		ppe_dev_unregister_hook(_net_dev); \
+} while (0)
+
+#define RT_MOD_HNAT_REG(_net_dev) \
+do { \
+	if (ppe_dev_register_hook != NULL) \
+		ppe_dev_register_hook(_net_dev); \
+} while (0)
+#endif
 
 /***********************************************************************************
  *	OS signaling related constant definitions
@@ -1142,6 +1155,10 @@ do{ \
 #if !defined(CONFIG_RA_NAT_NONE)
 extern int (*ra_sw_nat_hook_rx)(VOID *skb);
 extern int (*ra_sw_nat_hook_tx)(VOID *skb, int gmac_no);
+#endif
+#ifdef CONFIG_RA_HW_NAT_WIFI_NEW_ARCH
+extern void (*ppe_dev_register_hook)(VOID *dev);
+extern void (*ppe_dev_unregister_hook)(VOID *dev);
 #endif
 #endif
 

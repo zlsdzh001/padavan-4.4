@@ -147,7 +147,9 @@ INT MBSS_VirtualIF_Open(PNET_DEV pDev)
 
 	/* increase MODULE use count */
 	RT_MOD_INC_USE_COUNT();
-
+#ifdef CONFIG_RA_HW_NAT_WIFI_NEW_ARCH
+	RT_MOD_HNAT_REG(pDev);
+#endif
 	RTMP_OS_NETDEV_START_QUEUE(pDev);
 
 	return 0;
@@ -183,7 +185,9 @@ INT MBSS_VirtualIF_Close(PNET_DEV pDev)
 	RTMP_AP_IoctlHandle(pAd, NULL, CMD_RTPRIV_IOCTL_MBSS_CLOSE, 0, pDev, 0);
 
 	VIRTUAL_IF_DOWN(pAd);
-
+#ifdef CONFIG_RA_HW_NAT_WIFI_NEW_ARCH
+	RT_MOD_HNAT_DEREG(pDev);
+#endif
 	RT_MOD_DEC_USE_COUNT();
 	return 0;
 }

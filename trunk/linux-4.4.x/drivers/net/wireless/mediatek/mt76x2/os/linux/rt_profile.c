@@ -26,8 +26,8 @@
 #include "rt_config.h"
 
 #if defined(CONFIG_RA_HW_NAT) || defined(CONFIG_RA_HW_NAT_MODULE)
-#include "../../../../../../../net/nat/hw_nat_old/ra_nat.h"
-#include "../../../../../../../net/nat/hw_nat_old/frame_engine.h"
+#include "../../../../../../../net/nat/hw_nat/ra_nat.h"
+#include "../../../../../../../net/nat/hw_nat/frame_engine.h"
 #endif
 
 
@@ -825,10 +825,19 @@ void announce_802_3_packet(
 	if (ra_sw_nat_hook_rx != NULL)
 	{
 		pRxPkt->protocol = eth_type_trans(pRxPkt, pRxPkt->dev);
-		FOE_MAGIC_TAG(pRxPkt) = FOE_MAGIC_EXTIF;
+		if (IS_SPACE_AVAILABLE_HEAD(pRxPkt)) {
+			FOE_ALG_HEAD(pRxPkt) = 0;
+			FOE_MAGIC_TAG_HEAD(pRxPkt) = FOE_MAGIC_WLAN;
+			FOE_TAG_PROTECT_HEAD(pRxPkt) = TAG_PROTECT;
+			}
+			if (IS_SPACE_AVAILABLE_TAIL(pRxPkt)) {
+			FOE_ALG_TAIL(pRxPkt) = 0;
+			FOE_MAGIC_TAG_TAIL(pRxPkt) = FOE_MAGIC_WLAN;
+			FOE_TAG_PROTECT_TAIL(pRxPkt) = TAG_PROTECT;
+			}
 		if (ra_sw_nat_hook_rx(pRxPkt))
 		{
-			FOE_MAGIC_TAG(pRxPkt) = 0;
+			hwnat_magic_tag_set_zero(pRxPkt);
 			netif_rx(pRxPkt);
 		}
 		return;
@@ -968,6 +977,9 @@ INT Monitor_VirtualIF_Open(PNET_DEV dev_p)
 
 	/* increase MODULE use count */
 	RT_MOD_INC_USE_COUNT();
+#ifdef CONFIG_RA_HW_NAT_WIFI_NEW_ARCH
+	RT_MOD_HNAT_REG(dev_p);
+#endif
 	RTMP_COM_IoctlHandle(pAd, NULL, CMD_RTPRIV_IOCTL_SNIFF_OPEN, 0, dev_p, 0);
 
 
@@ -989,7 +1001,9 @@ INT Monitor_VirtualIF_Close(PNET_DEV dev_p)
 	//Monitor_Close(pAd,dev_p);
 
 	VIRTUAL_IF_DOWN(pAd);
-
+#ifdef CONFIG_RA_HW_NAT_WIFI_NEW_ARCH
+	RT_MOD_HNAT_DEREG(dev_p);
+#endif
 	RT_MOD_DEC_USE_COUNT();
 
 	return 0;

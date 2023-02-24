@@ -125,6 +125,9 @@ static int rt_pci_suspend(struct pci_dev *pci_dev, pm_message_t state)
 			/* take down the device */
 			rt28xx_close((PNET_DEV)net_dev);
 
+#ifdef CONFIG_RA_HW_NAT_WIFI_NEW_ARCH
+			RT_MOD_HNAT_DEREG(net_dev);
+#endif
 			RT_MOD_DEC_USE_COUNT();
 		}
 	}
@@ -218,6 +221,11 @@ static int rt_pci_resume(struct pci_dev *pci_dev)
 
 			/* increase MODULE use count */
 			RT_MOD_INC_USE_COUNT();
+
+#ifdef CONFIG_RA_HW_NAT_WIFI_NEW_ARCH
+			RT_MOD_HNAT_REG(net_dev);
+#endif
+
 
 /*			RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_HALT_IN_PROGRESS); */
 /*			RTMP_CLEAR_FLAG(pAd, fRTMP_ADAPTER_RADIO_OFF); */

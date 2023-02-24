@@ -273,9 +273,9 @@ $(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/os/linux/cfg80211/cfg80211_util.o
 $(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/os/linux/cfg80211/cfg80211.o
 endif
 
-ifeq ($(CONFIG_RT_DEBUG),y)
+
 $(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/sys_log.o
-endif
+
 
 ###################
 #  CFLAGS
@@ -307,7 +307,7 @@ endif
 EXTRA_CFLAGS += -DEEPROM_COUNTRY_UNLOCK
 
 # provide external Flash memory support
-### EXTRA_CFLAGS += -DRTMP_FLASH_SUPPORT
+EXTRA_CFLAGS += -DRTMP_FLASH_SUPPORT
 
 # provide internal eFuse memory support
 #EXTRA_CFLAGS += -DRTMP_EFUSE_SUPPORT -DCAL_FREE_IC_SUPPORT
@@ -386,10 +386,10 @@ ifeq ($(CONFIG_RT_READ_MAC_FROM_MTD),y)
 EXTRA_CFLAGS += -DREAD_MAC_FROM_EEPROM
 endif
 
-ifeq ($(CONFIG_RT_DEBUG),y)
-EXTRA_CFLAGS += -DDBG -DUAPSD_DEBUG
+#Remove DBG UAPSD_DEBUG
+#EXTRA_CFLAGS += -DDBG -DUAPSD_DEBUG
 #EXTRA_CFLAGS += -DDBG_DIAGNOSE -DDBG_RX_MCS -DDBG_TX_MCS
-endif
+
 
 ifeq ($(CONFIG_RT_ATE),y)
 EXTRA_CFLAGS += -DRALINK_ATE -DCONFIG_RT2880_ATE_CMD_NEW

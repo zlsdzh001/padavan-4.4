@@ -120,7 +120,9 @@ INT ApCli_VirtualIF_Open(PNET_DEV dev_p)
 
 	/* increase MODULE use count */
 	RT_MOD_INC_USE_COUNT();
-
+#ifdef CONFIG_RA_HW_NAT_WIFI_NEW_ARCH
+	RT_MOD_HNAT_REG(dev_p);
+#endif
 
 	RTMP_AP_IoctlHandle(pAd, NULL, CMD_RTPRIV_IOCTL_APC_OPEN, 0, dev_p, 0);
 
@@ -156,7 +158,9 @@ INT ApCli_VirtualIF_Close(PNET_DEV dev_p)
 	RTMP_AP_IoctlHandle(pAd, NULL, CMD_RTPRIV_IOCTL_APC_CLOSE, 0, dev_p, 0);
 
 	VIRTUAL_IF_DOWN(pAd);
-
+#ifdef CONFIG_RA_HW_NAT_WIFI_NEW_ARCH
+	RT_MOD_HNAT_DEREG(dev_p);
+#endif
 	RT_MOD_DEC_USE_COUNT();
 
 	return 0;

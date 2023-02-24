@@ -131,6 +131,9 @@ int MainVirtualIF_close(IN struct net_device *net_dev)
 	VIRTUAL_IF_DOWN(pAd);
 #endif /* IFUP_IN_PROBE */
 
+#ifdef CONFIG_RA_HW_NAT_WIFI_NEW_ARCH
+	RT_MOD_HNAT_DEREG(net_dev);
+#endif
 	RT_MOD_DEC_USE_COUNT();
 
 	return 0; /* close ok */
@@ -182,6 +185,10 @@ int MainVirtualIF_open(struct net_device *net_dev)
 #endif /* IFUP_IN_PROBE */	
 
 	RT_MOD_INC_USE_COUNT();
+#ifdef CONFIG_RA_HW_NAT_WIFI_NEW_ARCH
+	RT_MOD_HNAT_REG(net_dev);
+#endif
+
 
 	netif_start_queue(net_dev);
 	netif_carrier_on(net_dev);
