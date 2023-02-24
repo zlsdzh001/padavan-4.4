@@ -19,9 +19,6 @@ choice
 	config FIRST_IF_NONE
 	bool "None"
 	
-	config FIRST_IF_MT7603E_OLD
-	bool "MT7603"
-	
 	config FIRST_IF_MT7603E
 	bool "MT7603"
 
@@ -53,9 +50,6 @@ choice
 	config SECOND_IF_NONE
 	bool "None"
 	
-	config RT_SECON_IF_MT7612E_OLD
-	bool "MT7612E"
-	
 	config RT_SECOND_IF_MT7612E
 	bool "MT7612E"
 
@@ -81,7 +75,7 @@ endchoice
 config RT_FIRST_CARD
 	int
 	depends on !FIRST_IF_NONE
-	default 7603 if (FIRST_IF_MT7603E || FIRST_IF_MT7603E_OLD)	
+	default 7603 if FIRST_IF_MT7603E	
 	default 7615 if FIRST_IF_MT7615E
 	default 7622 if FIRST_IF_MT7622
 	default 7622 if FIRST_IF_MT7626
@@ -90,7 +84,7 @@ config RT_FIRST_CARD
 config RT_SECOND_CARD
 	int
 	depends on !SECOND_IF_NONE
-	default 7612 if (RT_SECOND_IF_MT7612E || RT_SECOND_IF_MT7612E_OLD)
+	default 7612 if RT_SECOND_IF_MT7612E
 	default 7615 if SECOND_IF_MT7615E
 
 config RT_THIRD_CARD
@@ -116,12 +110,6 @@ config RT_THIRD_IF_RF_OFFSET
 if (FIRST_IF_MT7603E)
 menu "MediaTek MT7603 PCIe Wireless driver"
 source "drivers/net/wireless/mediatek/mt76x3/Kconfig"
-endmenu
-endif
-
-if (FIRST_IF_MT7603E_OLD)
-menu "MediaTek MT7603 PCIe Wireless driver"
-source "drivers/net/wireless/mediatek/mt76x3_old/Kconfig"
 endmenu
 endif
 
@@ -192,12 +180,6 @@ endmenu
 endif
 
 if (RT_SECOND_IF_MT7612E)
-menu "MediaTek MT7612E PCIe Wireless driver"
-source "drivers/net/wireless/mediatek/mt76x2_ap/Kconfig"
-endmenu
-endif
-
-if (RT_SECOND_IF_MT7612E_OLD)
 menu "MediaTek MT7612E PCIe Wireless driver"
 source "drivers/net/wireless/mediatek/mt76x2_ap_old/Kconfig"
 endmenu
