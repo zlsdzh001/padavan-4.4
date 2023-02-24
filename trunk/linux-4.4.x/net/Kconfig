@@ -425,13 +425,6 @@ config SHORTCUT_FE
 config DST_CACHE
 	bool
 	default n
-
-# Used by archs to tell that they support BPF_JIT
-config HAVE_BPF_JIT
-	bool
-
-config HAVE_EBPF_JIT
-	bool
 	
 # OLD HW NAT 
 menuconfig OLD_HW_NAT
@@ -479,4 +472,3 @@ config HAVE_BPF_JIT
 config HAVE_EBPF_JIT
 	bool
 
-endif   # if NET
