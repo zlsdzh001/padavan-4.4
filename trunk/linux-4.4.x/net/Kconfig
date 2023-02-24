@@ -415,6 +415,21 @@ source "net/nat/hw_nat/Kconfig"
 
 endif
 
+if OLD_HW_NAT
+
+choice
+prompt "NAT Type"
+
+config  RA_NAT_NONE
+bool "None"
+config  RA_NAT_HW
+bool "Hardware"
+endchoice
+
+source "net/nat/hw_nat_old/Kconfig"
+
+endif
+
 config SHORTCUT_FE
 	bool "Enables kernel network stack path for Shortcut Forwarding Engine"
 	depends on NF_CONNTRACK && IPV6
