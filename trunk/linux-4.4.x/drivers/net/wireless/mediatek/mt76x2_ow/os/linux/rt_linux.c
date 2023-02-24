@@ -311,8 +311,8 @@ int32_t FlashWrite(
 int ra_mtd_write(int num, loff_t to, size_t len, const u_char *buf);
 int ra_mtd_read(int num, loff_t from, size_t len, u_char *buf);
 #else
-int ra_mtd_write_nm(char *name, loff_t to, size_t len, const u_char *buf);
-int ra_mtd_read_nm(char *name, loff_t from, size_t len, u_char *buf);
+//int ra_mtd_write_nm(char *name, loff_t to, size_t len, const u_char *buf);
+//int ra_mtd_read_nm(char *name, loff_t from, size_t len, u_char *buf);
 #endif
 
 #endif /* CONFIG_RALINK_FLASH_API */
@@ -328,7 +328,7 @@ void RtmpFlashRead(
 #ifdef RA_MTD_RW_BY_NUM
 	ra_mtd_read(MTD_NUM_FACTORY, 0, (size_t) b, p);
 #else
-	ra_mtd_read_nm("Factory", a&0xFFFF, (size_t) b, p);
+	//ra_mtd_read_nm("Factory", a&0xFFFF, (size_t) b, p);
 #endif
 #endif /* CONFIG_RALINK_FLASH_API */
 }
@@ -344,7 +344,7 @@ void RtmpFlashWrite(
 #ifdef RA_MTD_RW_BY_NUM
 	ra_mtd_write(MTD_NUM_FACTORY, 0, (size_t) b, p);
 #else
-	ra_mtd_write_nm("Factory", a&0xFFFF, (size_t) b, p);
+	//ra_mtd_write_nm("Factory", a&0xFFFF, (size_t) b, p);
 #endif
 #endif /* CONFIG_RALINK_FLASH_API */
 }
