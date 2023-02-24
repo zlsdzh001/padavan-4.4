@@ -415,8 +415,29 @@ source "net/nat/hw_nat/Kconfig"
 
 endif
 
+config SHORTCUT_FE
+	bool "Enables kernel network stack path for Shortcut Forwarding Engine"
+	depends on NF_CONNTRACK && IPV6
+	select NF_CONNTRACK_EVENTS
+	select NF_CONNTRACK_TIMEOUT
+	select NF_CONNTRACK_CHAIN_EVENTS
+
+config DST_CACHE
+	bool
+	default n
+
+endif   # if NET
+
+# Used by archs to tell that they support BPF_JIT
+config HAVE_BPF_JIT
+	bool
+
+config HAVE_EBPF_JIT
+	bool
+	
+# OLD HW NAT 
 menuconfig OLD_HW_NAT
-	bool "HW NAT support"
+	bool "OLD HW NAT support"
 	---help---
 	 This feature provides a fast path to support network lan/wan nat.
 	 If you need hw_nat engine to reduce cpu loading, please say Y.
@@ -425,8 +446,16 @@ menuconfig OLD_HW_NAT
 	  kernel: saying N will just cause the configurator to skip all
 	  the questions about Mediatek Ethernet devices. If you say Y,
 	  you will be asked for your specific card in the following questions.
-	 
 if OLD_HW_NAT
+
+choice
+prompt "NAT Type"
+
+config  RA_NAT_NONE
+bool "None"
+config  RA_NAT_HW
+bool "Hardware"
+endchoice
 
 source "net/nat/hw_nat_old/Kconfig"
 
