@@ -308,11 +308,11 @@ int32_t FlashWrite(
 #else
 #define MTD_NUM_FACTORY 2
 #endif
-extern int ra_mtd_write(int num, loff_t to, size_t len, const u_char *buf);
-extern int ra_mtd_read(int num, loff_t from, size_t len, u_char *buf);
+int ra_mtd_write(int num, loff_t to, size_t len, const u_char *buf);
+int ra_mtd_read(int num, loff_t from, size_t len, u_char *buf);
 #else
-extern int ra_mtd_write_nm(char *name, loff_t to, size_t len, const u_char *buf);
-extern int ra_mtd_read_nm(char *name, loff_t from, size_t len, u_char *buf);
+int ra_mtd_write_nm(char *name, loff_t to, size_t len, const u_char *buf);
+int ra_mtd_read_nm(char *name, loff_t from, size_t len, u_char *buf);
 #endif
 
 #endif /* CONFIG_RALINK_FLASH_API */
