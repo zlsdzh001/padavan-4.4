@@ -4938,6 +4938,7 @@ INT RTMPAPQueryInformation(
 #ifdef LLTD_SUPPORT
         case RT_OID_GET_LLTD_ASSO_TABLE:
             DBGPRINT(RT_DEBUG_TRACE, ("Query::Get LLTD association table\n"));
+			UCHAR apidx = pObj->ioctl_if;
             if ((wrq->u.data.pointer == NULL) || (apidx != MAIN_MBSSID))
             {
                 Status = -EFAULT;
