@@ -81,9 +81,5 @@ endif
 ifeq ($(CONFIG_RA_NAT_HW),y)
 obj-y				+= nat/foe_hook/
 endif
-ifneq ($(CONFIG_OLD_HW_NAT),)
-obj-$(CONFIG_RA_HW_NAT)		+= nat/hw_nat_old/
-else
 obj-$(CONFIG_RA_HW_NAT)		+= nat/hw_nat/
-endif
 obj-$(CONFIG_SHORTCUT_FE)	+= shortcut-fe/
