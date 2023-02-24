@@ -4937,6 +4937,7 @@ INT RTMPAPQueryInformation(
 #ifdef LLTD_SUPPORT
         case RT_OID_GET_LLTD_ASSO_TABLE:
             DBGPRINT(RT_DEBUG_TRACE, ("Query::Get LLTD association table\n"));
+			UCHAR apidx = pObj->ioctl_if;
             if ((wrq->u.data.pointer == NULL) || (apidx != MAIN_MBSSID))
             {
                 Status = -EFAULT;
@@ -4986,8 +4987,9 @@ INT RTMPAPQueryInformation(
 #endif /* DOT1X_SUPPORT */			
 
 		case RT_OID_802_11_MAC_ADDRESS:
-                        wrq->u.data.length = MAC_ADDR_LEN;
-                        Status = copy_to_user(wrq->u.data.pointer, &pAd->ApCfg.MBSSID[apidx].wdev.bssid, wrq->u.data.length);
+			UCHAR apidx = pObj->ioctl_if;
+            wrq->u.data.length = MAC_ADDR_LEN;
+            Status = copy_to_user(wrq->u.data.pointer, &pAd->ApCfg.MBSSID[apidx].wdev.bssid, wrq->u.data.length);
 			break;
 
 #ifdef SNMP_SUPPORT
@@ -5255,6 +5257,7 @@ INT RTMPAPQueryInformation(
 
 		case OID_802_11_MCAST_KEY_INFO:
 			{
+				UCHAR apidx = pObj->ioctl_if;
 				PMULTISSID_STRUCT pMbss;
 				WAPI_MCAST_KEY_STRUCT   wapi_mkey;
 
@@ -5328,7 +5331,7 @@ INT RTMPAPQueryInformation(
 
 			
 		case HOSTAPD_OID_GET_SEQ:/*report txtsc to hostapd. */
-
+			UCHAR apidx = pObj->ioctl_if;
 			pMbss = &pAd->ApCfg.MBSSID[apidx];
 			if (wrq->u.data.length != sizeof(ik))
 			{
@@ -5350,7 +5353,7 @@ INT RTMPAPQueryInformation(
 
 			
 		case HOSTAPD_OID_GET_1X_GROUP_KEY:/*report default group key to hostapd. */
-
+			UCHAR apidx = pObj->ioctl_if;
 			pMbss = &pAd->ApCfg.MBSSID[apidx];
 			if (wrq->u.data.length != sizeof(group_key))
 			{
@@ -5917,6 +5920,7 @@ INT RTMPAPQueryInformation(
 			break;
 #endif
    		default:
+			UCHAR apidx = pObj->ioctl_if;
 			DBGPRINT(RT_DEBUG_TRACE, ("Query::unknown IOCTL's subcmd = 0x%08x, apidx=%d\n", cmd, apidx));
 			Status = -EOPNOTSUPP;
 			break;
@@ -10508,7 +10512,7 @@ VOID RTMPIoctlStatistics(RTMP_ADAPTER *pAd, RTMP_IOCTL_INPUT_STRUCT *wrq)
 		rxCount = pAd->WlanCounters.ReceivedFragmentCount.QuadPart;
 	}
 
-	sprintf(msg+strlen(msg), "Current temperature = %d¢J\n", pChipCap->current_temp);
+	sprintf(msg+strlen(msg), "Current temperature = %dï¿½J\n", pChipCap->current_temp);
 	sprintf(msg+strlen(msg), "Average RSSI = %d\n", pChipCap->avg_rssi_all);
     sprintf(msg+strlen(msg), "Tx success                      = %ld\n", txCount);
 #ifdef ENHANCED_STAT_DISPLAY
