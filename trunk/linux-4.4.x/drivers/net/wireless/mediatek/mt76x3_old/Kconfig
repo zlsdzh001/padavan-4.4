@@ -1,5 +1,3 @@
-if RT_FIRST_IF_MT7603E || RT_SECOND_IF_MT7603E
-
 config WIFI_DRIVER
 	bool
 	default y
@@ -356,5 +354,3 @@ if MT7603E_RALINK_MT7603U
 		bool
 		default y
 endif
-endif
-#endif RT_FIRST_IF_MT7603E || RT_SECOND_IF_MT7603E
