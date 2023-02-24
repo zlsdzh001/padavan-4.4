@@ -1,548 +1,584 @@
-ifeq ($(WIFI_MODE),)
-RT28xx_MODE = AP
+RT_DRV_DIR  := mt76x2_ow
+RT_DRV_PATH := ../$(RT_DRV_DIR)
+RT_DRV_NAME := mt76x2_ap_ow
+
+CHIP_MT7620 =
+CHIP_MT76X2 =
+ifeq ($(CONFIG_RT_FIRST_CARD),7620)
+CHIP_MT7620 = y
+endif
+ifeq ($(CONFIG_RT_FIRST_CARD),7602)
+CHIP_MT76X2 = y
+endif
+ifeq ($(CONFIG_RT_FIRST_CARD),7612)
+CHIP_MT76X2 = y
+endif
+ifeq ($(CONFIG_RT_SECOND_CARD),7602)
+CHIP_MT76X2 = y
+endif
+ifeq ($(CONFIG_RT_SECOND_CARD),7612)
+CHIP_MT76X2 = y
+endif
+
+obj-$(CONFIG_MT76X2_AP) += $(RT_DRV_NAME).o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/crypt_md5.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/crypt_sha2.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/crypt_hmac.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/crypt_aes.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/crypt_arc4.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/mlme.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/action.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/ba_action.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/cmm_wep.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/cmm_wpa.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/cmm_tkip.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/cmm_aes.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/cmm_data.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/cmm_data_pci.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/cmm_mac_pci.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/cmm_sync.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/cmm_sanity.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/cmm_info.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/cmm_cfg.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/cmm_profile.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/cmm_asic.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/cmm_cmd.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/cmm_radar.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/rtmp_init.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/rtmp_init_inf.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/rtmp_timer.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/rt_channel.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/rt_os_util.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/spectrum.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/txpower.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/scan.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/ps.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/uapsd.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/eeprom.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/ee_flash.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/ee_efuse.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/ee_prom.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/tx_rx/wdev_tx.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/mgmt/mgmt_entrytb.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/mgmt/mgmt_ht.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/mac/rtmp_mac.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/mcu/mcu.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/phy/rf.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/phy/rt_rf.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/phy/phy.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/chips/rtmp_chip.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/rate_ctrl/ra_ctrl.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/rate_ctrl/alg_legacy.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/rate_ctrl/alg_grp.o
+#$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/rate_ctrl/alg_ags.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/ap/ap.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/ap/ap_assoc.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/ap/ap_auth.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/ap/ap_connect.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/ap/ap_mlme.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/ap/ap_sanity.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/ap/ap_sync.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/ap/ap_wpa.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/ap/ap_data.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/ap/ap_autoChSel.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/ap/ap_qload.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/ap/ap_cfg.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/os/linux/ap_ioctl.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/os/linux/rt_proc.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/os/linux/rt_linux.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/os/linux/rt_profile.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/os/linux/rt_main_dev.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/os/linux/rt_rbus_pci_drv.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/os/linux/rt_rbus_pci_util.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/os/linux/rt_pci_rbus.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/os/linux/multi_main_dev.o
+
+### MT7620 (RBUS)
+ifeq ($(CHIP_MT7620),y)
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/chips/rt6352.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/chips/rtxx_dft.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/rtmp_swmcu.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/cmm_rf_cal.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/cmm_loft_cal.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/phy/rlt_rf.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/phy/rtmp_phy.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/mac/ral_omac.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/os/linux/rbus_main_dev.o
+ifeq ($(CONFIG_RT_ATE),y)
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/ate/chips/rt6352_ate.o
+endif
+endif
+
+### MT7602E/MT7612E (PCIe)
+ifeq ($(CHIP_MT76X2),y)
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/chips/rt65xx.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/chips/mt76x2.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/mcu/mcu_and.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/phy/mt_rf.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/phy/rlt_phy.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/mac/ral_nmac.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/os/linux/pci_main_dev.o
+ifeq ($(CONFIG_RT_ATE),y)
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/ate/chips/mt76x2_ate.o
+endif
+endif
+
+ifeq ($(CONFIG_RT_ATE),y)
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/ate/common/rt_ate.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/ate/common/ate_pci.o
+ifeq ($(CONFIG_RT_QA),y)
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/ate/common/rt_qa.o
+endif
+endif
+
+ifeq ($(CONFIG_MT76X2_AP_LED),y)
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/rt_led.o
+endif
+
+ifeq ($(CONFIG_MT76X2_AP_WDS),y)
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/ap/ap_wds.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/ap/ap_wds_inf.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/client_wds.o
+endif
+
+ifeq ($(CONFIG_MT76X2_AP_MBSS),y)
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/ap/ap_mbss.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/ap/ap_mbss_inf.o
+endif
+
+ifeq ($(CONFIG_MT76X2_AP_APCLI),y)
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/ap/ap_apcli.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/ap/ap_apcli_inf.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/ap/apcli_assoc.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/ap/apcli_auth.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/ap/apcli_ctrl.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/ap/apcli_sync.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/cmm_mat.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/cmm_mat_iparp.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/cmm_mat_pppoe.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/cmm_mat_ipv6.o
+ifeq ($(CONFIG_MT76X2_AP_APCLI_AUTO_BW),y)
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/ap/apcli_autobw.o
+endif
+ifeq ($(CONFIG_MT76X2_AP_MAC_REPEATER),y)
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/ap/ap_repeater.o
+endif
+endif
+
+ifeq ($(CONFIG_MT76X2_AP_MWDS),y)
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/mwds.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/routing_tab.o
+ifeq ($(CONFIG_MT76X2_AP_SMART_MESH),y)
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/smart_mesh.o
+endif
+endif
+
+ifeq ($(CONFIG_MT76X2_AP_80211AC_VHT),y)
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/vht.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/mgmt/mgmt_vht.o
+endif
+
+ifeq ($(CONFIG_MT76X2_AP_GREENAP),y)
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/hw_ctrl/greenap.o
+endif
+
+ifeq ($(CONFIG_MT76X2_AP_DLS),y)
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/ap/ap_dls.o
+endif
+
+ifeq ($(CONFIG_MT76X2_AP_IDS),y)
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/ap/ap_ids.o
+endif
+
+ifeq ($(CONFIG_MT76X2_AP_DFS),y)
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/cmm_dfs.o
+endif
+
+ifeq ($(CONFIG_MT76X2_AP_CARRIER),y)
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/cmm_cs.o
+endif
+
+ifeq ($(CONFIG_MT76X2_AP_TXBF_SUPPORT),y)
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/cmm_txbf.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/cmm_txbf_cal.o
+endif
+
+ifeq ($(CONFIG_RT_WSC),y)
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/wsc.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/wsc_tlv.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/crypt_dh.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/wsc_ufd.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/crypt_biginteger.o
+ifeq ($(CONFIG_RT_WSC_V2),y)
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/wsc_v2.o
+endif
+ifeq ($(CONFIG_RT_WSC_NFC),y)
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/nfc.o
+endif
+endif
+
+ifeq ($(CONFIG_RT_WAPI),y)
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/wapi.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/wapi_sms4.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/wapi_crypt.o
+endif
+
+ifeq ($(CONFIG_RT_80211W_PMF),y)
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/pmf.o
+endif
+
+ifeq ($(CONFIG_RT_IGMP_SNOOP),y)
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/igmp_snoop.o
+endif
+
+ifeq ($(CONFIG_RT_NETIF_BLOCK),y)
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/netif_block.o
+endif
+
+ifeq ($(CONFIG_RT_CSO),y)
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/naf/net_acc.o
+endif
+
+ifeq ($(CONFIG_RT_VIDEO_TURBINE),y)
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/cmm_video.o
+endif
+
+ifeq ($(CONFIG_RT_BAND_STEERING),y)
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/ap/ap_band_steering.o
+endif
+
+ifeq ($(CONFIG_RT_DOT11R_FT),y)
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/ft.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/ft_tlv.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/ft_iocl.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/ft_rc.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/ap/ap_ftkd.o
+endif
+
+ifeq ($(CONFIG_RT_DOT11K_RRM),y)
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/rrm_tlv.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/rrm_sanity.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/rrm.o
+endif
+
+ifeq ($(CONFIG_RT_CFG80211),y)
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/os/linux/cfg80211/cfg80211_scan.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/os/linux/cfg80211/cfg80211_rx.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/os/linux/cfg80211/cfg80211_tx.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/os/linux/cfg80211/cfg80211_inf.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/os/linux/cfg80211/cfg80211_p2p.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/os/linux/cfg80211/cfg80211_ap.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/os/linux/cfg80211/cfg80211drv.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/os/linux/cfg80211/cfg80211_util.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/os/linux/cfg80211/cfg80211.o
+endif
+
+
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/sys_log.o
+
+
+###################
+#  CFLAGS
+##################
+
+EXTRA_CFLAGS  = -Wall -Wstrict-prototypes -Wno-trigraphs -Wno-unused -Wno-declaration-after-statement
+EXTRA_CFLAGS += -Idrivers/net/wireless/mediatek/$(RT_DRV_DIR)/include
+ifeq ($(CONFIG_RT_ATE),y)
+EXTRA_CFLAGS += -Idrivers/net/wireless/mediatek/$(RT_DRV_DIR)/ate/include
+endif
+EXTRA_CFLAGS += -DAGGREGATION_SUPPORT -DPIGGYBACK_SUPPORT -DWMM_SUPPORT -DLINUX
+EXTRA_CFLAGS += -DCONFIG_AP_SUPPORT -DUAPSD_SUPPORT -DDOT11_N_SUPPORT -DDOT1X_SUPPORT
+EXTRA_CFLAGS += -DAP_SCAN_SUPPORT -DSCAN_SUPPORT
+#EXTRA_CFLAGS += -DAP_PARTIAL_SCAN_SUPPORT
+EXTRA_CFLAGS += -DSTATS_COUNT_SUPPORT -DENHANCED_STAT_DISPLAY
+EXTRA_CFLAGS += -DRSSI_FEEDBACK
+EXTRA_CFLAGS += -DRESOURCE_PRE_ALLOC
+EXTRA_CFLAGS += -DEAPOL_QUEUE_SUPPORT
+EXTRA_CFLAGS += -DDATA_QUEUE_RESERVE
+EXTRA_CFLAGS += -DFORCE_ANNOUNCE_CRITICAL_AMPDU
+#EXTRA_CFLAGS += -DPS_ENTRY_MAITENANCE
+#EXTRA_CFLAGS += -DSYSTEM_LOG_SUPPORT
+
+ifeq ($(CONFIG_RT_FIRST_CARD),2860)
+EXTRA_CFLAGS += -DRT_SOC_SUPPORT
+endif
+
+# do not lock CountryRegion from EEPROM
+EXTRA_CFLAGS += -DEEPROM_COUNTRY_UNLOCK
+
+# provide external Flash memory support
+EXTRA_CFLAGS += -DRTMP_FLASH_SUPPORT
+
+# provide internal eFuse memory support
+#EXTRA_CFLAGS += -DRTMP_EFUSE_SUPPORT -DCAL_FREE_IC_SUPPORT
+
+# provide information on the current STA population and traffic levels in the QBSS
+#EXTRA_CFLAGS += -DAP_QLOAD_SUPPORT -DQLOAD_FUNC_BUSY_TIME_STATS
+
+ifneq ($(CONFIG_RA_HW_NAT_WIFI),y)
+EXTRA_CFLAGS += -DCONFIG_RA_NAT_NONE
+endif
+
+ifeq ($(CONFIG_RA_NETWORK_WORKQUEUE_BH),y)
+EXTRA_CFLAGS += -DWORKQUEUE_BH
+endif
+
+### MT7620 (RBUS)
+ifeq ($(CHIP_MT7620),y)
+EXTRA_CFLAGS += -DRT6352 -DCONFIG_SWMCU_SUPPORT
+EXTRA_CFLAGS += -DRTMP_RBUS_SUPPORT -DRTMP_MAC_PCI
+EXTRA_CFLAGS += -DRTMP_MAC -DRTMP_BBP -DRLT_RF -DRTMP_RF_RW_SUPPORT
+EXTRA_CFLAGS += -DVCORECAL_SUPPORT
+EXTRA_CFLAGS += -DLOFT_IQ_CAL_SUPPORT
+EXTRA_CFLAGS += -DRTMP_TEMPERATURE_CALIBRATION
+EXTRA_CFLAGS += -DFIFO_EXT_SUPPORT
+EXTRA_CFLAGS += -DDYNAMIC_VGA_SUPPORT
+#EXTRA_CFLAGS += -DMICROWAVE_OVEN_SUPPORT
+EXTRA_CFLAGS += -DMCS_LUT_SUPPORT -DPEER_DELBA_TX_ADAPT
+EXTRA_CFLAGS += -DDROP_MASK_SUPPORT
+EXTRA_CFLAGS += -DMULTI_CLIENT_SUPPORT
+#EXTRA_CFLAGS += -DSPECIFIC_BCN_BUF_SUPPORT
+#EXTRA_CFLAGS += -DTHERMAL_PROTECT_SUPPORT
+ifeq ($(CONFIG_MT76X2_AP_RTMP_INTERNAL_TX_ALC),y)
+EXTRA_CFLAGS += -DRTMP_INTERNAL_TX_ALC
+endif
+ifeq ($(CONFIG_MT76X2_AP_RTMP_TEMPERATURE_COMPENSATION),y)
+EXTRA_CFLAGS += -DRTMP_TEMPERATURE_COMPENSATION
+endif
+ifeq ($(CONFIG_MT76X2_AP_ADJ_PWR_CONSUMPTION),y)
+EXTRA_CFLAGS += -DADJUST_POWER_CONSUMPTION_SUPPORT
+endif
+ifeq ($(CONFIG_MT76X2_AP_INTERNAL_PA_EXTERNAL_LNA),y)
+EXTRA_CFLAGS += -DRT6352_EL_SUPPORT
+endif
+ifeq ($(CONFIG_MT76X2_AP_EXTERNAL_PA_EXTERNAL_LNA),y)
+EXTRA_CFLAGS += -DRT6352_EP_SUPPORT -DRT6352_EL_SUPPORT
+endif
+endif
+
+### MT7602E/MT7612E (PCIe)
+ifeq ($(CHIP_MT76X2),y)
+EXTRA_CFLAGS += -DRT65xx -DMT76x2 -DMT7612
+#EXTRA_CFLAGS += -DCONFIG_FPGA_MODE
+EXTRA_CFLAGS += -DRTMP_PCI_SUPPORT -DRTMP_MAC_PCI
+EXTRA_CFLAGS += -DRLT_MAC -DRLT_BBP -DMT_RF -DRTMP_RF_RW_SUPPORT
+EXTRA_CFLAGS += -DA_BAND_SUPPORT
+EXTRA_CFLAGS += -DRX_DMA_SCATTER -DCONFIG_ANDES_SUPPORT
+EXTRA_CFLAGS += -DNEW_RATE_ADAPT_SUPPORT
+#EXTRA_CFLAGS += -DNEW_RATE_ADAPT_QUICK_DOWN # has dropdown to CCK/0 issue on 5GHz
+EXTRA_CFLAGS += -DFIFO_EXT_SUPPORT
+EXTRA_CFLAGS += -DDYNAMIC_VGA_SUPPORT
+#EXTRA_CFLAGS += -DMICROWAVE_OVEN_SUPPORT
+EXTRA_CFLAGS += -DMCS_LUT_SUPPORT -DPEER_DELBA_TX_ADAPT
+EXTRA_CFLAGS += -DDROP_MASK_SUPPORT
+EXTRA_CFLAGS += -DMULTI_CLIENT_SUPPORT
+EXTRA_CFLAGS += -DRTMP_TEMPERATURE_TX_ALC
+#EXTRA_CFLAGS += -DSPECIFIC_BCN_BUF_SUPPORT
+#EXTRA_CFLAGS += -DSPECIFIC_TX_POWER_SUPPORT
+#EXTRA_CFLAGS += -DTHERMAL_PROTECT_SUPPORT
+#EXTRA_CFLAGS += -DDMA_BUSY_RESET
+ifeq ($(CHIP_MT7620),y)
+EXTRA_CFLAGS += -DMULTI_INF_SUPPORT
+endif
+endif
+
+ifeq ($(CONFIG_RT_READ_MAC_FROM_MTD),y)
+EXTRA_CFLAGS += -DREAD_MAC_FROM_EEPROM
+endif
+
+#Remove DBG UAPSD_DEBUG
+#EXTRA_CFLAGS += -DDBG -DUAPSD_DEBUG
+#EXTRA_CFLAGS += -DDBG_DIAGNOSE -DDBG_RX_MCS -DDBG_TX_MCS
+
+
+ifeq ($(CONFIG_RT_ATE),y)
+EXTRA_CFLAGS += -DRALINK_ATE -DCONFIG_RT2880_ATE_CMD_NEW
+EXTRA_CFLAGS += -DRTMP_EFUSE_SUPPORT -DCAL_FREE_IC_SUPPORT
+ifeq ($(CONFIG_RT_QA),y)
+EXTRA_CFLAGS += -DRALINK_QA
+endif
+endif
+
+ifeq ($(CONFIG_MT76X2_AP_DLS),y)
+EXTRA_CFLAGS += -DQOS_DLS_SUPPORT
+endif
+
+ifeq ($(CONFIG_MT76X2_AP_IDS),y)
+EXTRA_CFLAGS += -DIDS_SUPPORT
+endif
+
+ifeq ($(CONFIG_MT76X2_AP_DFS),y)
+EXTRA_CFLAGS += -DDFS_SUPPORT -DDFS_ATP_SUPPORT
+endif
+
+ifeq ($(CONFIG_MT76X2_AP_CARRIER),y)
+EXTRA_CFLAGS += -DCARRIER_DETECTION_SUPPORT
+endif
+
+ifeq ($(CONFIG_MT76X2_AP_GREENAP),y)
+EXTRA_CFLAGS += -DGREENAP_SUPPORT
+endif
+
+ifeq ($(CONFIG_MT76X2_AP_80211AC_VHT),y)
+EXTRA_CFLAGS += -DDOT11_VHT_AC
+endif
+
+ifeq ($(CONFIG_MT76X2_AP_TXBF_SUPPORT),y)
+EXTRA_CFLAGS += -DMCS_LUT_SUPPORT -DTXBF_SUPPORT -DVHT_TXBF_SUPPORT
+endif
+
+ifeq ($(CONFIG_MT76X2_AP_LED),y)
+EXTRA_CFLAGS += -DLED_CONTROL_SUPPORT
+ifeq ($(CONFIG_RT_WSC),y)
+EXTRA_CFLAGS += -DWSC_LED_SUPPORT
+endif
+endif
+
+ifeq ($(CONFIG_MT76X2_AP_LED_SOFT),y)
+EXTRA_CFLAGS += -DLED_SOFT_SUPPORT
+EXTRA_CFLAGS += -DLED_SOFT_BLINK_GPIO=$(CONFIG_MT76X2_AP_LED_SOFT_GPIO)
+ifdef CONFIG_MT76X2_AP_LED_SOFT_GPIO_DEV1
+EXTRA_CFLAGS += -DLED_SOFT_BLINK_GPIO_DEV1=$(CONFIG_MT76X2_AP_LED_SOFT_GPIO_DEV1)
 else
-RT28xx_MODE = $(WIFI_MODE)
+EXTRA_CFLAGS += -DLED_SOFT_BLINK_GPIO_DEV1=-1
 endif
-
-ifeq ($(TARGET),)
-TARGET = LINUX
-endif
-
-# CHIPSET
-# rt2860, rt2870, rt2880, rt2070, rt3070, rt3090, rt3572, rt3062, rt3562, rt3593, rt3573
-# rt3562(for rt3592), rt3050, rt3350, rt3352, rt5350, rt5370, rt5390, rt5572, rt5592, 
-# rt8592(for rt85592), 
-# mt7601e, mt7601u,
-# mt7620,
-# mt7650e, mt7630e, mt7610e, mt7650u, mt7630u, mt7610u
-# mt7662e, mt7632e, mt7612e, mt7662u, mt7632u, mt7612u
-
-ifeq ($(CHIPSET),)
-CHIPSET = mt7620 mt7662e mt7632e mt7612e
-endif
-
-MODULE = $(word 1, $(CHIPSET))
-
-#OS ABL - YES or NO
-OSABL = NO
-
-ifneq ($(TARGET),THREADX)
-#RT28xx_DIR = home directory of RT28xx source code
-RT28xx_DIR = $(shell pwd)
-endif
-
-include $(RT28xx_DIR)/os/linux/config.mk
-
-RTMP_SRC_DIR = $(RT28xx_DIR)/RT$(MODULE)
-
-#PLATFORM: Target platform
-PLATFORM = PC
-#PLATFORM = ARM
-#PLATFORM = 5VT
-#PLATFORM = IKANOS_V160
-#PLATFORM = IKANOS_V180
-#PLATFORM = SIGMA
-#PLATFORM = SIGMA_8622
-#PLATFORM = INIC
-#PLATFORM = STAR
-#PLATFORM = IXP
-#PLATFORM = INF_TWINPASS
-#PLATFORM = INF_DANUBE
-#PLATFORM = INF_AR9
-#PLATFORM = INF_VR9
-#PLATFORM = BRCM_6358
-#PLATFORM = INF_AMAZON_SE
-#PLATFORM = CAVM_OCTEON
-#PLATFORM = CMPC
-#PLATFORM = RALINK_2880
-#PLATFORM = RALINK_3052
-#PLATFORM = SMDK
-#PLATFORM = RMI
-#PLATFORM = RMI_64
-#PLATFORM = KODAK_DC
-#PLATFORM = DM6446
-#PLATFORM = FREESCALE8377
-#PLATFORM = BL2348
-#PLATFORM = BL23570
-#PLATFORM = BLUBB
-#PLATFORM = BLPMP
-#PLATFORM = MT85XX
-#PLATFORM = NXP_TV550
-#PLATFORM = MVL5
-#PLATFORM = RALINK_3352
-#PLATFORM = UBICOM_IPX8
-#PLATFORM = INTELP6
-
-#APSOC
-ifeq ($(MODULE),3050)
-PLATFORM = RALINK_3050
-endif
-ifeq ($(MODULE),3052)
-PLATFORM = RALINK_3052
-endif
-ifeq ($(MODULE),3350)
-PLATFORM = RALINK_3050
-endif
-ifeq ($(MODULE),3352)
-PLATFORM = RALINK_3352
-endif
-
-
-#RELEASE Package
-RELEASE = DPA
-
-
-ifeq ($(TARGET),LINUX)
-MAKE = make
-endif
-
-ifeq ($(TARGET), UCOS)
-MAKE = make
-endif
-ifeq ($(TARGET),THREADX)
-MAKE = gmake
-endif
-
-ifeq ($(TARGET), ECOS)
-MAKE = make
-MODULE = $(shell pwd | sed "s/.*\///" ).o
-export MODULE
-endif
-
-ifeq ($(PLATFORM),5VT)
-LINUX_SRC = /home/ralink-2860-sdk-5vt-distribution/linux-2.6.17
-CROSS_COMPILE = /opt/crosstool/uClibc_v5te_le_gcc_4_1_1/bin/arm-linux-
-endif
-
-ifeq ($(PLATFORM),UBICOM_IPX8)
-LINUX_SRC = /home/sample/Customers/UBICOM/ubicom-linux-dist-2.1.1/linux-2.6.x
-CROSS_COMPILE = ubicom32-elf-
-endif
-
-ifeq ($(PLATFORM),IKANOS_V160)
-LINUX_SRC = /home/sample/projects/LX_2618_RG_5_3_00r4_SRC/linux-2.6.18
-CROSS_COMPILE = mips-linux-
-endif
-
-ifeq ($(PLATFORM),IKANOS_V180)
-LINUX_SRC = /home/sample/projects/LX_BSP_VX180_5_4_0r1_ALPHA_26DEC07/linux-2.6.18
-CROSS_COMPILE = mips-linux-
-endif
-
-ifeq ($(PLATFORM),SIGMA)
-LINUX_SRC = /root/sigma/smp86xx_kernel_source_2.7.172.0/linux-2.6.15
-CROSS_COMPILE = /root/sigma/smp86xx_toolchain_2.7.172.0/build_mipsel_nofpu/staging_dir/bin/mipsel-linux-
-endif
-
-ifeq ($(PLATFORM),SIGMA_8622)
-LINUX_SRC = /home/snowpin/armutils_2.5.120.1/build_arm/linux-2.4.22-em86xx
-CROSS_COMPILE = /home/snowpin/armutils_2.5.120.1/toolchain/bin/arm-elf-
-CROSS_COMPILE_INCLUDE = /home/snowpin/armutils_2.5.120.1/toolchain/lib/gcc-lib/arm-elf/2.95.3
-endif
-
-ifeq ($(PLATFORM),INIC)
-UCOS_SRC = /opt/uCOS/iNIC_rt2880
-CROSS_COMPILE = /usr/bin/mipsel-linux-
-endif
-
-ifeq ($(PLATFORM),STAR)
-LINUX_SRC = /opt/star/kernel/linux-2.4.27-star
-CROSS_COMPILE = /opt/star/tools/arm-linux/bin/arm-linux-
-endif
-
-ifeq ($(PLATFORM),RMI)
-LINUX_SRC = /opt/rmi/1.7.0/linux/src/
-CROSS_COMPILE = /opt/rmi/1.7.0/mipscross/nptl/bin/mips64-unknown-linux-gnu-
-endif
-
-ifeq ($(PLATFORM),RMI_64)
-LINUX_SRC = /opt/rmi/1.7.0/linux_64/src/
-CROSS_COMPILE = /opt/rmi/1.7.0/mipscross/nptl/bin/mips64-unknown-linux-gnu-
-endif
-
-ifeq ($(PLATFORM), RALINK_2880)
-LINUX_SRC = /project/stable/RT288x/RT288x_SDK/source/linux-2.4.x
-CROSS_COMPILE = /opt/buildroot-gdb/bin/mipsel-linux-
-endif
-
-ifeq ($(PLATFORM),RALINK_3052)
-LINUX_SRC = /home/peter/ap_soc/SDK_3_3_0_0/RT288x_SDK/source/linux-2.6.21.x
-CROSS_COMPILE = /opt/buildroot-gcc342/bin/mipsel-linux-uclibc-
 endif
 
-ifeq ($(PLATFORM),FREESCALE8377)
-LINUX_SRC = /opt/ltib-mpc8377_rds-20090309/rpm/BUILD/linux-2.6.25 
-CROSS_COMPILE = /opt/freescale/usr/local/gcc-4.2.187-eglibc-2.5.187/powerpc-linux-gnu/bin/powerpc-linux-gnu-
+ifeq ($(CONFIG_MT76X2_AP_LLTD),y)
+EXTRA_CFLAGS += -DLLTD_SUPPORT
 endif
 
-ifeq ($(PLATFORM),BL2348)
-LINUX_SRC = /home/sample/Customers/BroadLight/bl234x-linux-2.6.21-small-v29
-CROSS_COMPILE = mips-wrs-linux-gnu-
+ifeq ($(CONFIG_MT76X2_AP_WDS),y)
+EXTRA_CFLAGS += -DWDS_SUPPORT
 endif
 
-ifeq ($(PLATFORM),BL23570)
-LINUX_SRC = /home/FIBERHOME/linux-2.6.34.8
-CROSS_COMPILE = mips-wrs-linux-gnu-mips_74k_softfp-glibc_small-
-ARCH:=mips
-export $ARCH
+ifeq ($(CONFIG_MT76X2_AP_MBSS),y)
+EXTRA_CFLAGS += -DMBSS_SUPPORT
+ifeq ($(CONFIG_MT76X2_AP_MBSS_NEW_MBSSID_MODE),y)
+EXTRA_CFLAGS += -DNEW_MBSSID_MODE
+EXTRA_CFLAGS += -DENHANCE_NEW_MBSSID_MODE
 endif
-
-
-ifeq ($(PLATFORM),BLUBB)
-LINUX_SRC = /home/sample/Customers/BroadLight/UBB/gmp20/linux-2.6.21-small
-CROSS_COMPILE = mips-wrs-linux-gnu-
-endif
-
-ifeq ($(PLATFORM),BLPMP)
-LINUX_SRC = /home/sample/Customers/BroadLight/UBB/pmp16/bl234x-linux-2.6.21-small-v30.2
-CROSS_COMPILE = mips-wrs-linux-gnu-
-endif
-
-ifeq ($(PLATFORM),PC)
-# Linux 2.6
-LINUX_SRC = /lib/modules/$(shell uname -r)/build
-# Linux 2.4 Change to your local setting
-#LINUX_SRC = /usr/src/linux-2.4
-LINUX_SRC_MODULE = /lib/modules/$(shell uname -r)/kernel/drivers/net/wireless/
-CROSS_COMPILE = 
 endif
 
-ifeq ($(PLATFORM),ARM)
-LINUX_SRC = /home/freddy/Mediatek/SDK4320_Linux_Kernel_3.x/RT288x_SDK/source/linux-3.10.14.x  
-CROSS_COMPILE = /opt/buildroot-gcc463/usr/bin/mipsel-linux-
+ifeq ($(CONFIG_MT76X2_AP_APCLI),y)
+EXTRA_CFLAGS += -DAPCLI_SUPPORT -DMAT_SUPPORT -DTRAFFIC_BASED_TXOP
+EXTRA_CFLAGS += -DAPCLI_AUTO_CONNECT_SUPPORT
+EXTRA_CFLAGS += -DMAC_APCLI_SUPPORT
+ifeq ($(CONFIG_MT76X2_AP_APCLI_AUTO_BW),y)
+EXTRA_CFLAGS += -DAPCLI_AUTO_BW_SUPPORT
 endif
-
-ifeq ($(PLATFORM),INTELP6)
-LINUX_SRC = /tftpboot/IntelCE-20.0.11052.243193/project_build_i686/IntelCE/kernel-20.0.11024.238456/linux-2.6.35
-CROSS_COMPILE = /tftpboot/IntelCE-20.0.11052.243193/build_i686/i686-linux-elf/bin/i686-cm-linux-
+ifeq ($(CONFIG_MT76X2_AP_MAC_REPEATER),y)
+EXTRA_CFLAGS += -DMAC_REPEATER_SUPPORT
 endif
-
-ifeq ($(PLATFORM),IXP)
-LINUX_SRC = /project/stable/Gmtek/snapgear-uclibc/linux-2.6.x
-CROSS_COMPILE = arm-linux-
+ifeq ($(CONFIG_MT76X2_AP_APCLI_CERT),y)
+EXTRA_CFLAGS += -DAPCLI_CERT_SUPPORT
 endif
-
-ifeq ($(PLATFORM),INF_TWINPASS)
-# Linux 2.6
-#LINUX_SRC = /lib/modules/$(shell uname -r)/build
-# Linux 2.4 Change to your local setting
-LINUX_SRC = /project/stable/twinpass/release/2.0.1/source/kernel/opensource/linux-2.4.31/
-CROSS_COMPILE = mips-linux-
+ifeq ($(CONFIG_MT76X2_AP_CON_WPS),y)
+EXTRA_CFLAGS += -DCON_WPS -DCON_WPS_AP_SAME_UUID
 endif
-
-ifeq ($(PLATFORM),INF_DANUBE)
-LINUX_SRC = /opt/danube/sdk/linux-2.6.16.x
-CROSS_COMPILE = mips-linux-
-ROOTDIR = /opt/danube/sdk
-export ROOTDIR
 endif
 
-ifeq ($(PLATFORM),INF_AR9)
-LINUX_SRC = /root/ar9/xR9_BSP1.2.2.0/source/kernel/opensource/linux-2.6.20/
-CROSS_COMPILE = /root/ar9/ifx-lxdb26-1.0.2/gcc-3.4.4/toolchain-mips/bin/
+ifeq ($(CONFIG_MT76X2_AP_AIRPLAY),y)
+EXTRA_CFLAGS += -DAIRPLAY_SUPPORT
 endif
 
-ifeq ($(PLATFORM),INF_VR9)
-LINUX_SRC = /home/public/lantiq/VR9/UGW-4.2/build_dir/linux-ifxcpe_platform_vr9/linux-2.6.20.19
-CROSS_COMPILE = /home/public/lantiq/VR9/UGW-4.2/staging_dir/toolchain-mips_gcc-3.4.6_uClibc-0.9.29/bin/mips-linux-
+ifeq ($(CONFIG_MT76X2_AP_MWDS),y)
+EXTRA_CFLAGS += -DMWDS -DROUTING_TAB_SUPPORT
+ifeq ($(CONFIG_MT76X2_AP_SMART_MESH),y)
+EXTRA_CFLAGS += -DSMART_MESH -DSMART_MESH_MONITOR -DSMART_MESH_HIDDEN_WPS
 endif
-
-ifeq ($(PLATFORM),BRCM_6358)
-LINUX_SRC = 
-CROSS_COMPILE = 
 endif
 
-ifeq ($(PLATFORM),INF_AMAZON_SE)
-# Linux 2.6
-#LINUX_SRC = /lib/modules/$(shell uname -r)/build
-# Linux 2.4 Change to your local setting
-LINUX_SRC = /backup/ifx/3.6.2.2/source/kernel/opensource/linux-2.4.31
-#CROSS_COMPILE = mips-linux-
-#LINUX_SRC = /project/Infineon/3.6.2.2/source/kernel/opensource/linux-2.4.31
-CROSS_COMPILE = /opt/uclibc-toolchain/ifx-lxdb-1-2-3-external/gcc-3.3.6/toolchain-mips/R0208V35/mips-linux-uclibc/bin/
+ifeq ($(CONFIG_RT_WSC),y)
+EXTRA_CFLAGS += -DWSC_AP_SUPPORT
+ifeq ($(CONFIG_RT_WSC_V2),y)
+EXTRA_CFLAGS += -DWSC_V2_SUPPORT
 endif
-
-ifeq ($(PLATFORM),ST)
-LINUX_SRC = /opt/STM/STLinux-2.2/devkit/sources/kernel/linux0039
-CROSS_COMPILE = /opt/STM/STLinux-2.2/devkit/sh4/bin/sh4-linux-
-ARCH := sh
-export ARCH
+ifeq ($(CONFIG_RT_WSC_NFC),y)
+EXTRA_CFLAGS += -DWSC_NFC_SUPPORT
 endif
-
-ifeq ($(PLATFORM),CAVM_OCTEON)
-OCTEON_ROOT = /usr/local/Cavium_Networks/OCTEON-SDK
-LINUX_SRC = $(OCTEON_ROOT)/linux/kernel_2.6/linux
-CROSS_COMPILE = mips64-octeon-linux-gnu-
 endif
 
-ifeq ($(PLATFORM),CMPC)
-LINUX_SRC = /opt/fvt_11N_SDK_0807/fvt131x_SDK_11n/linux-2.6.17
-CROSS_COMPILE =
+ifeq ($(CONFIG_RT_80211N_DRAFT3),y)
+EXTRA_CFLAGS += -DDOT11N_DRAFT3
 endif
 
-ifeq ($(PLATFORM),SMDK)
-LINUX_SRC = /home/bhushan/itcenter/may28/linux-2.6-samsung
-CROSS_COMPILE = /usr/local/arm/4.2.2-eabi/usr/bin/arm-linux-
+ifeq ($(CONFIG_RT_WAPI),y)
+EXTRA_CFLAGS += -DWAPI_SUPPORT
 endif
 
-ifeq ($(PLATFORM),RALINK_3352)
-LINUX_SRC = /home/sample/3352/RT288x_SDK/source/linux-2.6.21.x
-CROSS_COMPILE = /opt/buildroot-gcc342/bin/mipsel-linux-
+ifeq ($(CONFIG_RT_80211W_PMF),y)
+EXTRA_CFLAGS += -DDOT11W_PMF_SUPPORT -DSOFT_ENCRYPT
 endif
 
-ifeq ($(PLATFORM),KODAK_DC)
-SKD_SRC = C:/SigmaTel/DC1250_SDK_v1-9/sdk
-CROSS_COMPILE = $(cc)
+ifeq ($(CONFIG_RT_ED_MONITOR),y)
+EXTRA_CFLAGS += -DED_MONITOR -DED_SMART
 endif
 
-ifeq ($(PLATFORM),DM6446)
-LINUX_SRC = /home/fonchi/work/soc/ti-davinci
+ifeq ($(CONFIG_RT_IGMP_SNOOP),y)
+EXTRA_CFLAGS += -DIGMP_SNOOP_SUPPORT
+ifeq ($(CONFIG_MT76X2_AP_MWDS),y)
+EXTRA_CFLAGS += -DIGMP_MESH
 endif
-
-ifeq ($(PLATFORM),MT85XX)
-LINUX_SRC = /home/john/MTK/BDP_Linux/linux-2.6.27
-CROSS_COMPILE = armv6z-mediatek-linux-gnueabi-
 endif
 
-ifeq ($(PLATFORM),NXP_TV550) 
-LINUX_SRC = /data/tv550/kernel/linux-2.6.28.9
-LINUX_SRC_MODULE = /data/tv550/kernel/linux-2.6.28.9/drivers/net/wireless
-CROSS_COMPILE = /opt/embeddedalley/nxp_tv550/bin/mipsel-linux-
+ifeq ($(CONFIG_RT_MCAST_RATE_SPECIFIC),y)
+EXTRA_CFLAGS += -DMCAST_RATE_SPECIFIC
 endif
 
-ifeq ($(PLATFORM),MVL5)
-LINUX_SRC = /home2/charlestu/AP-VT3426/linux-2.6.18
-CROSS_COMPILE = /opt/montavista/pro/devkit/arm/v5t_le_mvl5/bin/arm_v5t_le-
+ifeq ($(CONFIG_RT_VIDEO_TURBINE),y)
+EXTRA_CFLAGS += -DVIDEO_TURBINE_SUPPORT
 endif
-
-export OSABL RT28xx_DIR RT28xx_MODE LINUX_SRC CROSS_COMPILE CROSS_COMPILE_INCLUDE PLATFORM RELEASE CHIPSET MODULE RTMP_SRC_DIR LINUX_SRC_MODULE TARGET HAS_WOW_SUPPORT
-
-# The targets that may be used.
-PHONY += all build_tools test UCOS THREADX LINUX release prerelease clean uninstall install libwapi osabl
-
-ifeq ($(TARGET),LINUX)
-all: build_tools $(TARGET)
-else
-all: $(TARGET)
-endif 
-
 
-
-build_tools:
-	$(MAKE) -C tools
-	$(RT28xx_DIR)/tools/bin2h
-	$(RT28xx_DIR)/tools/dat2h
-test:
-	$(MAKE) -C tools test
-
-UCOS:
-	$(MAKE) -C os/ucos/ MODE=$(RT28xx_MODE)
-	echo $(RT28xx_MODE)
-
-ECOS:
-	$(MAKE) -C os/ecos/ MODE=$(RT28xx_MODE)
-	cp -f os/ecos/$(MODULE) $(MODULE)
-
-THREADX:
-	$(MAKE) -C $(RT28xx_DIR)/os/Threadx -f $(RT28xx_DIR)/os/ThreadX/Makefile
-
-LINUX:
-ifneq (,$(findstring 2.4,$(LINUX_SRC)))
-
-ifeq ($(OSABL),YES)
-	cp -f os/linux/Makefile.4.util $(RT28xx_DIR)/os/linux/Makefile
-	$(MAKE) -C $(RT28xx_DIR)/os/linux/
+ifeq ($(CONFIG_RT_BAND_STEERING),y)
+EXTRA_CFLAGS += -DBAND_STEERING
 endif
 
-	cp -f os/linux/Makefile.4 $(RT28xx_DIR)/os/linux/Makefile
-	$(MAKE) -C $(RT28xx_DIR)/os/linux/
-
-ifeq ($(OSABL),YES)
-	cp -f os/linux/Makefile.4.netif $(RT28xx_DIR)/os/linux/Makefile
-	$(MAKE) -C $(RT28xx_DIR)/os/linux/
+ifeq ($(CONFIG_RT_DOT11R_FT),y)
+EXTRA_CFLAGS += -DDOT11R_FT_SUPPORT -DIAPP_SUPPORT
 endif
-
-ifeq ($(RT28xx_MODE),AP)
-	cp -f $(RT28xx_DIR)/os/linux/$(MODULE)_ap.o /tftpboot
-ifeq ($(OSABL),YES)
-	cp -f $(RT28xx_DIR)/os/linux/rtutil$(MODULE)_ap.o /tftpboot
-	cp -f $(RT28xx_DIR)/os/linux/rtnet$(MODULE)_ap.o /tftpboot
-endif
-ifeq ($(PLATFORM),INF_AMAZON_SE)
-	cp -f /tftpboot/rt2870ap.o /backup/ifx/build/root_filesystem/lib/modules/2.4.31-Amazon_SE-3.6.2.2-R0416_Ralink/kernel/drivers/net
-endif
-else	
-ifeq ($(RT28xx_MODE),APSTA)
-	cp -f $(RT28xx_DIR)/os/linux/$(MODULE)_apsta.o /tftpboot
-ifeq ($(OSABL),YES)
-	cp -f $(RT28xx_DIR)/os/linux/rtutil$(MODULE)_apsta.o /tftpboot
-	cp -f $(RT28xx_DIR)/os/linux/rtnet$(MODULE)_apsta.o /tftpboot
-endif
-else
-	cp -f $(RT28xx_DIR)/os/linux/$(MODULE)_sta.o /tftpboot
-ifeq ($(OSABL),YES)
-	cp -f $(RT28xx_DIR)/os/linux/rtutil$(MODULE)_sta.o /tftpboot
-	cp -f $(RT28xx_DIR)/os/linux/rtnet$(MODULE)_sta.o /tftpboot
-endif
-endif	
-endif	
-else
 
-ifeq ($(OSABL),YES)
-	cp -f os/linux/Makefile.6.util $(RT28xx_DIR)/os/linux/Makefile
-	$(MAKE) -C $(LINUX_SRC) SUBDIRS=$(RT28xx_DIR)/os/linux modules
+ifeq ($(CONFIG_RT_DOT11K_RRM),y)
+EXTRA_CFLAGS += -DDOT11K_RRM_SUPPORT -DAPPLE_11K_IOT
 endif
 
-	cp -f os/linux/Makefile.6 $(RT28xx_DIR)/os/linux/Makefile
-ifeq ($(PLATFORM),DM6446)
-	$(MAKE)  ARCH=arm CROSS_COMPILE=arm_v5t_le- -C  $(LINUX_SRC) SUBDIRS=$(RT28xx_DIR)/os/linux modules
-else
-ifeq ($(PLATFORM),FREESCALE8377)
-	$(MAKE) ARCH=powerpc CROSS_COMPILE=$(CROSS_COMPILE) -C  $(LINUX_SRC) SUBDIRS=$(RT28xx_DIR)/os/linux modules
-else
-ifeq ($(PLATFORM),ARM)
-	$(MAKE) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) -C $(LINUX_SRC) SUBDIRS=$(RT28xx_DIR)/os/linux modules
-#	Pls make sure below configs are included your kernel configuration.
-#     CONFIG_WIRELESS=y
-#     CONFIG_WIRELESS_EXT=y
-#     CONFIG_WEXT_CORE=y
-#     CONFIG_WEXT_PROC=y
-#     CONFIG_WEXT_SPY=y
-#     CONFIG_WEXT_PRIV=y
-else
-	$(MAKE) -C $(LINUX_SRC) SUBDIRS=$(RT28xx_DIR)/os/linux modules
-endif	
-endif	
+ifeq ($(CONFIG_RT_HDR_TRANS),y)
+EXTRA_CFLAGS += -DHDR_TRANS_SUPPORT
 endif
 
-ifeq ($(OSABL),YES)
-	cp -f os/linux/Makefile.6.netif $(RT28xx_DIR)/os/linux/Makefile
-	$(MAKE) -C $(LINUX_SRC) SUBDIRS=$(RT28xx_DIR)/os/linux modules
+ifeq ($(CONFIG_RT_CSO),y)
+EXTRA_CFLAGS += -DCONFIG_CSO_SUPPORT -DCONFIG_TSO_SUPPORT
 endif
 
-ifeq ($(RT28xx_MODE),AP)
-	cp -f $(RT28xx_DIR)/os/linux/$(MODULE)_ap.ko /tftpboot
-ifeq ($(OSABL),YES)
-	cp -f $(RT28xx_DIR)/os/linux/$(MODULE)_ap_util.ko /tftpboot
-	cp -f $(RT28xx_DIR)/os/linux/$(MODULE)_ap_net.ko /tftpboot
-endif
-	rm -f os/linux/$(MODULE)_ap.ko.lzma
-	/root/bin/lzma e os/linux/$(MODULE)_ap.ko os/linux/$(MODULE)_ap.ko.lzma
-else	
-ifeq ($(RT28xx_MODE),APSTA)
-	cp -f $(RT28xx_DIR)/os/linux/$(MODULE)_apsta.ko /tftpboot
-ifeq ($(OSABL),YES)
-	cp -f $(RT28xx_DIR)/os/linux/$(MODULE)_apsta_util.ko /tftpboot
-	cp -f $(RT28xx_DIR)/os/linux/$(MODULE)_apsta_net.ko /tftpboot
-endif
-else
-	cp -f $(RT28xx_DIR)/os/linux/$(MODULE)_sta.ko /tftpboot
-ifeq ($(OSABL),YES)
-	cp -f $(RT28xx_DIR)/os/linux/$(MODULE)_sta_util.ko /tftpboot
-	cp -f $(RT28xx_DIR)/os/linux/$(MODULE)_sta_net.ko /tftpboot
-endif
+ifeq ($(CONFIG_RT_DELAYED_TCP_ACK),y)
+EXTRA_CFLAGS += -DDELAYED_TCP_ACK
 endif
-endif
-endif
-
 
-release: build_tools
-	$(MAKE) -C $(RT28xx_DIR)/striptool -f Makefile.release clean
-	$(MAKE) -C $(RT28xx_DIR)/striptool -f Makefile.release
-	striptool/striptool.out
-ifeq ($(RELEASE), DPO)
-	gcc -o striptool/banner striptool/banner.c
-	./striptool/banner -b striptool/copyright.gpl -s DPO/ -d DPO_GPL -R
-	./striptool/banner -b striptool/copyright.frm -s DPO_GPL/include/firmware.h
+ifeq ($(CONFIG_RT_SINGLE_SKU),y)
+EXTRA_CFLAGS += -DSINGLE_SKU_V2
 endif
 
-prerelease:
-ifeq ($(MODULE), 2880)
-	$(MAKE) -C $(RT28xx_DIR)/os/linux -f Makefile.release.2880 prerelease
-else
-	$(MAKE) -C $(RT28xx_DIR)/os/linux -f Makefile.release prerelease
-endif
-	cp $(RT28xx_DIR)/os/linux/Makefile.DPB $(RTMP_SRC_DIR)/os/linux/.
-	cp $(RT28xx_DIR)/os/linux/Makefile.DPA $(RTMP_SRC_DIR)/os/linux/.
-	cp $(RT28xx_DIR)/os/linux/Makefile.DPC $(RTMP_SRC_DIR)/os/linux/.
-ifeq ($(RT28xx_MODE),STA)
-	cp $(RT28xx_DIR)/os/linux/Makefile.DPD $(RTMP_SRC_DIR)/os/linux/.
-	cp $(RT28xx_DIR)/os/linux/Makefile.DPO $(RTMP_SRC_DIR)/os/linux/.
-endif	
-
-clean:
-ifeq ($(TARGET), LINUX)
-	cp -f os/linux/Makefile.clean os/linux/Makefile
-	$(MAKE) -C os/linux clean
-	rm -rf os/linux/Makefile
-endif	
-ifeq ($(TARGET), UCOS)
-	$(MAKE) -C os/ucos clean MODE=$(RT28xx_MODE)
-endif
-ifeq ($(TARGET), ECOS)
-	$(MAKE) -C os/ecos clean MODE=$(RT28xx_MODE)
+ifeq ($(CONFIG_RT_MEMORY_OPTIMIZATION),y)
+EXTRA_CFLAGS += -DMEMORY_OPTIMIZATION
 endif
 
-uninstall:
-ifeq ($(TARGET), LINUX)
-ifneq (,$(findstring 2.4,$(LINUX_SRC)))
-	$(MAKE) -C $(RT28xx_DIR)/os/linux -f Makefile.4 uninstall
-else
-	$(MAKE) -C $(RT28xx_DIR)/os/linux -f Makefile.6 uninstall
+ifeq ($(CONFIG_RT_NETIF_BLOCK),y)
+EXTRA_CFLAGS += -DBLOCK_NET_IF
 endif
-endif
 
-install:
-ifeq ($(TARGET), LINUX)
-ifneq (,$(findstring 2.4,$(LINUX_SRC)))
-	$(MAKE) -C $(RT28xx_DIR)/os/linux -f Makefile.4 install
-else
-	$(MAKE) -C $(RT28xx_DIR)/os/linux -f Makefile.6 install
-endif
+ifeq ($(CONFIG_RT_SNMP),y)
+EXTRA_CFLAGS += -DSNMP_SUPPORT
 endif
 
-libwapi:
-ifneq (,$(findstring 2.4,$(LINUX_SRC)))
-	cp -f os/linux/Makefile.libwapi.4 $(RT28xx_DIR)/os/linux/Makefile
-	$(MAKE) -C $(RT28xx_DIR)/os/linux/
-else
-	cp -f os/linux/Makefile.libwapi.6 $(RT28xx_DIR)/os/linux/Makefile	
-	$(MAKE) -C  $(LINUX_SRC) SUBDIRS=$(RT28xx_DIR)/os/linux modules	
-endif	
-
-osutil:
-ifeq ($(OSABL),YES)
-ifneq (,$(findstring 2.4,$(LINUX_SRC)))
-	cp -f os/linux/Makefile.4.util $(RT28xx_DIR)/os/linux/Makefile
-	$(MAKE) -C $(RT28xx_DIR)/os/linux/
-else
-	cp -f os/linux/Makefile.6.util $(RT28xx_DIR)/os/linux/Makefile
-	$(MAKE) -C $(LINUX_SRC) SUBDIRS=$(RT28xx_DIR)/os/linux modules
+ifeq ($(CONFIG_RT_CFG80211),y)
+EXTRA_CFLAGS += -DRT_CFG80211_SUPPORT -DEXT_BUILD_CHANNEL_LIST
 endif
-endif
 
-osnet:
-ifeq ($(OSABL),YES)
-ifneq (,$(findstring 2.4,$(LINUX_SRC)))
-	cp -f os/linux/Makefile.4.netif $(RT28xx_DIR)/os/linux/Makefile
-	$(MAKE) -C $(RT28xx_DIR)/os/linux/
-else
-	cp -f os/linux/Makefile.6.netif $(RT28xx_DIR)/os/linux/Makefile
-	$(MAKE) -C $(LINUX_SRC) SUBDIRS=$(RT28xx_DIR)/os/linux modules
-endif
+ifeq ($(CONFIG_RT_BIG_ENDIAN),y)
+EXTRA_CFLAGS += -DRT_BIG_ENDIAN
 endif
 
-osdrv:
-ifneq (,$(findstring 2.4,$(LINUX_SRC)))
-	cp -f os/linux/Makefile.4 $(RT28xx_DIR)/os/linux/Makefile
-	$(MAKE) -C $(RT28xx_DIR)/os/linux/
-else
-	cp -f os/linux/Makefile.6 $(RT28xx_DIR)/os/linux/Makefile
-	$(MAKE) -C $(LINUX_SRC) SUBDIRS=$(RT28xx_DIR)/os/linux modules
+ifeq ($(CONFIG_RT_MC_SUPPORT),y)
+EXTRA_CFLAGS += -DMULTIPLE_CARD_SUPPORT
 endif
-
-# Declare the contents of the .PHONY variable as phony.  We keep that information in a variable
-.PHONY: $(PHONY)
-
-
 
