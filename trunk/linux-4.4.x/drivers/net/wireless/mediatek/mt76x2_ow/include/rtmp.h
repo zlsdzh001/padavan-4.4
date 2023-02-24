@@ -9625,7 +9625,7 @@ VOID dump_rxinfo(RTMP_ADAPTER *pAd, RXINFO_STRUC *pRxInfo);
 VOID dump_rxblk(RTMP_ADAPTER *pAd, RX_BLK *pRxBlk);
 
 
-#ifdef RTMP_MAC_PCI
+#if defined(RTMP_MAC_PCI) && defined(DBG)
 VOID dump_rxd(RTMP_ADAPTER *pAd, RXD_STRUC *pRxD);		
 #endif /* RTMP_MAC_PCI */
 
