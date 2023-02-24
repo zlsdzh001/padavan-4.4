@@ -1,6 +1,6 @@
 RT_DRV_DIR  := mt76x2_ow
 RT_DRV_PATH := ../$(RT_DRV_DIR)
-RT_DRV_NAME := mt76x2_ap_ow
+RT_DRV_NAME := mt76x2_ap
 
 CHIP_MT7620 =
 CHIP_MT76X2 =
