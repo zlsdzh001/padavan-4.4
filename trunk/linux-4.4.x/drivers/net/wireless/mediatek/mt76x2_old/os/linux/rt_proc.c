@@ -60,8 +60,8 @@ int wl_proc_exit(void);
 #define PROCREG_DIR             "rt2880"
 #endif /* PROCREG_DIR */
 
-#if 0 //CONFIG_PROC_FS
-extern struct proc_dir_entry *procRegDir;
+#ifdef CONFIG_PROC_FS
+struct proc_dir_entry *procRegDir;
 
 #ifdef VIDEO_TURBINE_SUPPORT
 extern BOOLEAN UpdateFromGlobal;

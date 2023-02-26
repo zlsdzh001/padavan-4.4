@@ -25,9 +25,14 @@
  
 #include "rt_config.h"
 
+#if defined(BB_SOC) && defined(BB_RA_HWNAT_WIFI)
+#include <linux/foe_hook.h>
+#endif
+
 #if defined(CONFIG_RA_HW_NAT) || defined(CONFIG_RA_HW_NAT_MODULE)
-#include "../../../../../../../net/nat/hw_nat/ra_nat.h"
-#include "../../../../../../../net/nat/hw_nat/frame_engine.h"
+#include <net/ra_nat.h>
+//#include "../../../../../../../net/nat/hw_nat/ra_nat.h"
+//#include "../../../../../../../net/nat/hw_nat/frame_engine.h"
 #endif
 
 
@@ -835,6 +840,7 @@ void announce_802_3_packet(
 			FOE_MAGIC_TAG_TAIL(pRxPkt) = FOE_MAGIC_WLAN;
 			FOE_TAG_PROTECT_TAIL(pRxPkt) = TAG_PROTECT;
 		}
+		unsigned long flags;
 		RTMP_IRQ_LOCK(&pAd->page_lock, flags);
 		if (ra_sw_nat_hook_rx(pRxPkt))
 		{
@@ -842,6 +848,15 @@ void announce_802_3_packet(
 			netif_rx(pRxPkt);
 		}
 		RTMP_IRQ_UNLOCK(&pAd->page_lock, flags);
+/*
+		pRxPkt->protocol = eth_type_trans(pRxPkt, pRxPkt->dev);
+		FOE_ALG_HEAD(pRxPkt) = 0;
+		FOE_MAGIC_TAG_HEAD(pRxPkt) = FOE_MAGIC_WLAN;
+		FOE_TAG_PROTECT_HEAD(pRxPkt) = TAG_PROTECT;
+		if (ra_sw_nat_hook_rx(pRxPkt)) {
+			netif_rx(pRxPkt);
+		}
+*/
 		return;
 	}
 #endif /* CONFIG_RA_NAT_NONE */

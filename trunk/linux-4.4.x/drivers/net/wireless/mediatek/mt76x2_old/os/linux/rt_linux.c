@@ -38,8 +38,8 @@
 #include <linux/rtnetlink.h>
 
 #if defined(CONFIG_RA_HW_NAT) || defined(CONFIG_RA_HW_NAT_MODULE)
-#include "../../../../../../../net/nat/hw_nat_old/ra_nat.h"
-#include "../../../../../../../net/nat/hw_nat_old/frame_engine.h"
+#include "../../../../../../../net/nat/hw_nat/ra_nat.h"
+#include "../../../../../../../net/nat/hw_nat/frame_engine.h"
 #endif
 
 /* TODO */
@@ -283,15 +283,20 @@ NDIS_STATUS os_free_mem(
 }
 
 #if defined(RTMP_RBUS_SUPPORT) || defined(RTMP_FLASH_SUPPORT)
-extern int ra_mtd_write_nm(char *name, loff_t to, size_t len, const u_char *buf);
-extern int ra_mtd_read_nm(char *name, loff_t from, size_t len, u_char *buf);
+//extern int ra_mtd_write_nm(char *name, loff_t to, size_t len, const u_char *buf);
+//extern int ra_mtd_read_nm(char *name, loff_t from, size_t len, u_char *buf);int mt_mtd_write_nm_wifi(char *name, loff_t to, size_t len, const u_char *buf);
+int mt_mtd_write_nm_wifi(char *name, loff_t to, size_t len, const u_char *buf);
+int mt_mtd_read_nm_wifi(char *name, loff_t from, size_t len, u_char *buf);
+#define flash_read(_ctrl, _ptr, _offset, _len) mt_mtd_read_nm_wifi("Factory", _offset, (size_t)_len, _ptr)
+#define flash_write(_ctrl, _ptr, _offset, _len) mt_mtd_write_nm_wifi("Factory", _offset, (size_t)_len, _ptr)
 
 void RtmpFlashRead(
 	UCHAR *p,
 	ULONG a,
 	ULONG b)
 {
-	ra_mtd_read_nm("Factory", a&0xFFFF, (size_t) b, p);
+	//ra_mtd_read_nm("Factory", a&0xFFFF, (size_t) b, p);
+	flash_read("Factory", p, a, b);
 }
 
 void RtmpFlashWrite(
@@ -299,7 +304,8 @@ void RtmpFlashWrite(
 	ULONG a,
 	ULONG b)
 {
-	ra_mtd_write_nm("Factory", a&0xFFFF, (size_t) b, p);
+	//ra_mtd_write_nm("Factory", a&0xFFFF, (size_t) b, p);
+	flash_write("Factory",p, a, b);
 }
 #endif /* defined(RTMP_RBUS_SUPPORT) || defined(RTMP_FLASH_SUPPORT) */
 
