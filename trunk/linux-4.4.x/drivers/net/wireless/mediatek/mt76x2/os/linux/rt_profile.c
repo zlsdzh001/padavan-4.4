@@ -830,16 +830,16 @@ void announce_802_3_packet(
 	if (ra_sw_nat_hook_rx != NULL)
 	{
 		pRxPkt->protocol = eth_type_trans(pRxPkt, pRxPkt->dev);
-		//if (IS_SPACE_AVAILABLE_HEAD(pRxPkt)) {
-		//	FOE_ALG_HEAD(pRxPkt) = 0;
-		//	FOE_MAGIC_TAG_HEAD(pRxPkt) = FOE_MAGIC_WLAN;
-		//	FOE_TAG_PROTECT_HEAD(pRxPkt) = TAG_PROTECT;
-		//}
-		//if (IS_SPACE_AVAILABLE_TAIL(pRxPkt)) {
-		//	FOE_ALG_TAIL(pRxPkt) = 0;
-		//	FOE_MAGIC_TAG_TAIL(pRxPkt) = FOE_MAGIC_WLAN;
-		//	FOE_TAG_PROTECT_TAIL(pRxPkt) = TAG_PROTECT;
-		//}
+		if (IS_SPACE_AVAILABLE_HEAD(pRxPkt)) {
+			FOE_ALG_HEAD(pRxPkt) = 0;
+			FOE_MAGIC_TAG_HEAD(pRxPkt) = FOE_MAGIC_WLAN;
+			FOE_TAG_PROTECT_HEAD(pRxPkt) = TAG_PROTECT;
+		}
+		if (IS_SPACE_AVAILABLE_TAIL(pRxPkt)) {
+			FOE_ALG_TAIL(pRxPkt) = 0;
+			FOE_MAGIC_TAG_TAIL(pRxPkt) = FOE_MAGIC_WLAN;
+			FOE_TAG_PROTECT_TAIL(pRxPkt) = TAG_PROTECT;
+		}
 		if (ra_sw_nat_hook_rx(pRxPkt))
 		{
 			hwnat_magic_tag_set_zero(pRxPkt);
