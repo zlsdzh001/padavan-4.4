@@ -970,7 +970,7 @@ static inline INT __RtmpOSTaskNotifyToExit(OS_TASK *pTask)
 
 static inline void __RtmpOSTaskCustomize(OS_TASK *pTask)
 {
-#ifndef KTHREAD_SUPPORT
+#if 0 //ndef KTHREAD_SUPPORT
 
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(2,5,0)
 	daemonize((PSTRING) & pTask->taskName[0] /*"%s",pAd->net_dev->name */ );
