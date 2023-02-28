@@ -36,7 +36,6 @@
 #include "rt_os_util.h"
 #include "dot11i_wpa.h"
 #include <linux/rtnetlink.h>
-#include <linux/sched.h>
 
 #if defined(BB_SOC) && defined(BB_RA_HWNAT_WIFI)
 #include <linux/foe_hook.h>
@@ -971,7 +970,7 @@ static inline INT __RtmpOSTaskNotifyToExit(OS_TASK *pTask)
 
 static inline void __RtmpOSTaskCustomize(OS_TASK *pTask)
 {
-#if 0 //ndef KTHREAD_SUPPORT
+#ifndef KTHREAD_SUPPORT
 
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(2,5,0)
 	daemonize((PSTRING) & pTask->taskName[0] /*"%s",pAd->net_dev->name */ );
