@@ -36,6 +36,7 @@
 #include "rt_os_util.h"
 #include "dot11i_wpa.h"
 #include <linux/rtnetlink.h>
+#include <linux/sched.h>
 
 #if defined(BB_SOC) && defined(BB_RA_HWNAT_WIFI)
 #include <linux/foe_hook.h>
