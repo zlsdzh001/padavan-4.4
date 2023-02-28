@@ -72,7 +72,7 @@
 
 /* must put the definition before include "os/rt_linux_cmm.h" */
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,29)
-//#define KTHREAD_SUPPORT 1
+#define KTHREAD_SUPPORT 1
 #endif /* LINUX_VERSION_CODE */
 
 #ifdef KTHREAD_SUPPORT
