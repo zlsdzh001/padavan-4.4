@@ -1,11 +1,13 @@
 #include "rt_config.h"
 
+#ifdef MT7662TU
 #include "mcu/mt7662_rom_patch.h"
 #include "mcu/mt7662_firmware.h"
+#endif /* MT7662TU */
 
-#ifdef RTMP_EFUSE_SUPPORT
+//#ifdef RTMP_EFUSE_SUPPORT
 #include "eeprom/mt76x2_e2p.h"
-#endif /* RTMP_EFUSE_SUPPORT */
+//#endif /* RTMP_EFUSE_SUPPORT */
 
 #define MT7662_EFUSE_CTRL	0x0024
 static RTMP_REG_PAIR mt76x2_mac_cr_table[] = {
