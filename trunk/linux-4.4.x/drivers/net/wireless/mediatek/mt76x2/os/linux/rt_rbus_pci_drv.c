@@ -65,7 +65,7 @@ NDIS_STATUS RtmpNetTaskInit(IN RTMP_ADAPTER *pAd)
 	RTMP_OS_TASKLET_INIT(pAd, &pObj->ac3_dma_done_task, ac3_dma_done_tasklet, (unsigned long)pAd);
 	RTMP_OS_TASKLET_INIT(pAd, &pObj->hcca_dma_done_task, hcca_dma_done_tasklet, (unsigned long)pAd);
 	RTMP_OS_TASKLET_INIT(pAd, &pObj->tbtt_task, tbtt_tasklet, (unsigned long)pAd);
-	//RTMP_OS_TASKLET_INIT(pAd, &pObj->pretbtt_task, pretbtt_tasklet, (unsigned long)pAd);
+	RTMP_OS_TASKLET_INIT(pAd, &pObj->pretbtt_task, pretbtt_tasklet, (unsigned long)pAd);
 	RTMP_OS_TASKLET_INIT(pAd, &pObj->fifo_statistic_full_task, fifo_statistic_full_tasklet, (unsigned long)pAd);
 #ifdef UAPSD_SUPPORT	
 		RTMP_OS_TASKLET_INIT(pAd, &pObj->uapsd_eosp_sent_task, uapsd_eosp_sent_tasklet, (unsigned long)pAd);
