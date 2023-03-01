@@ -1,8 +1,11 @@
 #include "rt_config.h"
 
-#ifdef MT7662TU
 #include "mcu/mt7662_rom_patch.h"
 #include "mcu/mt7662_firmware.h"
+
+#ifdef MT7662TU
+#include "mcu/mt7662t_rom_patch.h"
+#include "mcu/mt7662t_fi#endif /* MT7662TU */rmware.h"
 #endif /* MT7662TU */
 
 //#ifdef RTMP_EFUSE_SUPPORT
