@@ -140,7 +140,7 @@ static VOID RtmpEepromTypeAdjust(RTMP_ADAPTER *pAd, UCHAR *pE2pType)
 #endif /* defined(RTMP_EFUSE_SUPPORT) && defined(RTMP_FLASH_SUPPORT) */
 
 INT RtmpChipOpsEepromHook(
-	IN RTMP_ADAPTERRtmpChipOpsEepromHook 	*pAd,
+	IN RTMP_ADAPTER 	*pAd,
 	IN INT				infType)
 {
 	RTMP_CHIP_OP *pChipOps = &pAd->chipOps;
