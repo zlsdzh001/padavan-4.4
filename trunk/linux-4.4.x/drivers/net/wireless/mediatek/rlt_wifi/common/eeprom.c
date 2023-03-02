@@ -85,14 +85,14 @@ UCHAR RtmpEepromGetDefault(
 		goto out;	
 	}
 #endif /* CONFIG_RT_SECOND_CARD_EEPROM */
-
+/* 这一段不要
 	if (IS_RT2860(pAd) || IS_RT2870(pAd))
 		e2p_dafault = E2P_EEPROM_MODE;
 	else if (pAd->infType == RTMP_DEV_INF_RBUS)
 		e2p_dafault = E2P_FLASH_MODE;
 	else
 		e2p_dafault = E2P_EFUSE_MODE;
-
+*/
 out:
 	DBGPRINT(RT_DEBUG_OFF, ("%s::e2p_dafault=%d\n", __FUNCTION__, e2p_dafault));
 	return e2p_dafault;
@@ -140,7 +140,7 @@ static VOID RtmpEepromTypeAdjust(RTMP_ADAPTER *pAd, UCHAR *pE2pType)
 #endif /* defined(RTMP_EFUSE_SUPPORT) && defined(RTMP_FLASH_SUPPORT) */
 
 INT RtmpChipOpsEepromHook(
-	IN RTMP_ADAPTER 	*pAd,
+	IN RTMP_ADAPTERRtmpChipOpsEepromHook 	*pAd,
 	IN INT				infType)
 {
 	RTMP_CHIP_OP *pChipOps = &pAd->chipOps;
