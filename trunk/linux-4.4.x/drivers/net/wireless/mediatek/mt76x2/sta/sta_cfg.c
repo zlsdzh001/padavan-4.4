@@ -2025,7 +2025,7 @@ INT	Set_WscGetConf_Proc(
 		NdisZeroMemory(pAd->MlmeAux.AutoReconnectSsid, pAd->MlmeAux.AutoReconnectSsidLen);
 
 		pWscControl->bWscTrigger = FALSE;	/* check to disable */
-		OS_WAIT(50);  /* leave enough time for this DISASSOC frame */
+		OS_WAIT(500);  /* leave enough time for this DISASSOC frame */
 	}
 	else if (ADHOC_ON(pAd))
 	{
@@ -2099,7 +2099,7 @@ INT	Set_WscGetConf_Proc(
 		*/
 		pAd->StaCfg.bSkipAutoScanConn = TRUE;
 		while ((ScanRunning(pAd) == TRUE) && (WaitCnt++ < 200))
-			OS_WAIT(50);
+			OS_WAIT(500);
 
 		pAd->MlmeAux.AutoReconnectSsidLen= 0;
 		pAd->bConfigChanged = TRUE;
