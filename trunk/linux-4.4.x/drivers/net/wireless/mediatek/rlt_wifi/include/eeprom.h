@@ -101,6 +101,7 @@ static USHORT EE_FLASH_ID_LIST[]={
 
 #ifdef MT76x2
 #ifdef RTMP_MAC_PCI
+	0x7612, // fix to add 0x7612
 	0x7662,
 #endif /* RTMP_MAC_PCI */
 #endif /* MT76x0 */
@@ -140,7 +141,7 @@ static USHORT EE_FLASH_ID_LIST[]={
 #define EEPROM_1ST_FILE_DIR		"/etc/wireless/"
 #define EEPROM_2ND_FILE_DIR		"/etc/wireless/"
 #else
-#define EEPROM_FILE_DIR            "/etc_ro/wlan/"
+#define EEPROM_FILE_DIR            "/etc_ro/Wireless/"
 #define EEPROM_1ST_FILE_DIR        "/etc_ro/Wireless/iNIC/"
 #define EEPROM_2ND_FILE_DIR        "/etc_ro/Wireless/iNIC/"
 #endif /* CONFIG_SUPPORT_OPENWRT */
