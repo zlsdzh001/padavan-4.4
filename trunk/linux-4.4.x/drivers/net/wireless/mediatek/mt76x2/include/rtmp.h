@@ -186,9 +186,9 @@ typedef struct _UAPSD_INFO {
 // TODO: ---End
 
 
-/*#define DBG		1 */
+#define DBG		1 
 
-/*#define DBG_DIAGNOSE		1 */
+#define DBG_DIAGNOSE		1 
 
 
 /*+++Used for merge MiniportMMRequest() and MiniportDataMMRequest() into one function */
