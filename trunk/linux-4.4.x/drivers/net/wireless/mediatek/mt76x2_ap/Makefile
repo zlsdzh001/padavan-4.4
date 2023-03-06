@@ -20,6 +20,20 @@ ifeq ($(CONFIG_RT_SECOND_CARD),7612)
 CHIP_MT76X2 = y
 endif
 
+### MT7602E/MT7612E (PCIe)
+ifeq ($(CHIP_MT76X2),y)
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/chips/rt65xx.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/chips/mt76x2.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/mcu/mcu_and.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/phy/mt_rf.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/phy/rlt_phy.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/mac/ral_nmac.o
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/os/linux/pci_main_dev.o
+ifeq ($(CONFIG_RT_ATE),y)
+$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/ate/chips/mt76x2_ate.o
+endif
+endif
+
 obj-$(CONFIG_MT76X2_AP) += $(RT_DRV_NAME).o
 $(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/crypt_md5.o
 $(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/crypt_sha2.o
@@ -106,20 +120,6 @@ $(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/mac/ral_omac.o
 $(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/os/linux/rbus_main_dev.o
 ifeq ($(CONFIG_RT_ATE),y)
 $(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/ate/chips/rt6352_ate.o
-endif
-endif
-
-### MT7602E/MT7612E (PCIe)
-ifeq ($(CHIP_MT76X2),y)
-$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/chips/rt65xx.o
-$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/chips/mt76x2.o
-$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/mcu/mcu_and.o
-$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/phy/mt_rf.o
-$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/phy/rlt_phy.o
-$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/mac/ral_nmac.o
-$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/os/linux/pci_main_dev.o
-ifeq ($(CONFIG_RT_ATE),y)
-$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/ate/chips/mt76x2_ate.o
 endif
 endif
 
