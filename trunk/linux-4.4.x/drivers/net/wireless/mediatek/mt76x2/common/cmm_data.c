@@ -25,6 +25,9 @@
 
  
 #include "rt_config.h"
+#ifdef RLT_MAC
+#include "mac_ral/nmac/ral_nmac.h"
+#endif
 
 #ifdef LED_SOFT_SUPPORT
 #include <ralink/ralink_gpio.h>
