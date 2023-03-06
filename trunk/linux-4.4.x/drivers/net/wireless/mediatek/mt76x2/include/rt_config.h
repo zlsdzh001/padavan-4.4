@@ -277,6 +277,7 @@
 
 #ifdef RLT_MAC
 #include "mac_ral/fce.h"
+#include "mac_ral/nmac/ral_nmac.h"
 #endif /* RLT_MAC */
 
 #ifdef CONFIG_SNIFFER_SUPPORT
