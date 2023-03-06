@@ -8359,8 +8359,8 @@ static void _rtmp_hexdump(int level, const char *title, const UINT8 *buf,
 			 size_t len, int show)
 {
 	size_t i;
-	if (level < RTDebugLevel)
-		return;
+	//if (level < RTDebugLevel)
+	//	return;
 	printk("%s - hexdump(len=%lu):", title, (unsigned long) len);
 	if (show) {
 		for (i = 0; i < len; i++)
@@ -9927,7 +9927,9 @@ VOID RTMPAPIoctlBBP32(RTMP_ADAPTER *pAd, RTMP_IOCTL_INPUT_STRUCT *wrq)
 	NdisZeroMemory(mpool, MAX_BBP_MSG_SIZE * 2 +256+12);
 	msg = (PSTRING)((ULONG)(mpool+3) & (ULONG)~0x03);
 	arg = (PSTRING)((ULONG)(msg+MAX_BBP_MSG_SIZE * 2+3) & (ULONG)~0x03);
-
+#ifndef RTPRIV_IOCTL_FLAG_NODUMPMSG
+#define RTPRIV_IOCTL_FLAG_NODUMPMSG 0x0002
+#endif
 	bAllowDump = ((wrq->u.data.flags & RTPRIV_IOCTL_FLAG_NODUMPMSG) == RTPRIV_IOCTL_FLAG_NODUMPMSG) ? FALSE : TRUE;
 	argLen = strlen((char *)(wrq->u.data.pointer));
 
@@ -10316,7 +10318,9 @@ VOID RTMPAPIoctlMAC(
 	os_alloc_mem(NULL, (UCHAR **)&mpool, sizeof(CHAR)*(4096+256+12));
 	if (!mpool)
 		return;
-
+#ifndef RTPRIV_IOCTL_FLAG_UI
+#define RTPRIV_IOCTL_FLAG_UI 0x0001
+#endif
 	bFromUI = ((wrq->u.data.flags & RTPRIV_IOCTL_FLAG_UI) == RTPRIV_IOCTL_FLAG_UI) ? TRUE : FALSE;
 	
 	msg = (PSTRING)((ULONG)(mpool+3) & (ULONG)~0x03);
@@ -10601,7 +10605,9 @@ VOID RTMPAPIoctlRF_rlt(RTMP_ADAPTER *pAdapter, RTMP_IOCTL_INPUT_STRUCT *wrq)
 	if (mpool == NULL) {
 		return;
 	}
-
+#ifndef RTPRIV_IOCTL_FLAG_UI
+#define RTPRIV_IOCTL_FLAG_UI 0x0001
+#endif
 	bFromUI = ((wrq->u.data.flags & RTPRIV_IOCTL_FLAG_UI) == RTPRIV_IOCTL_FLAG_UI) ? TRUE : FALSE;
 	
 	NdisZeroMemory(mpool, memLen);
