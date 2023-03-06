@@ -1637,6 +1637,7 @@ INT rx_temp_dbg = 0;
 INT	Set_Debug_Proc(RTMP_ADAPTER *pAd, PSTRING arg)
 {
 	ULONG dbg;
+	ULONG RTDebugLevel = RT_DEBUG_OFF;
 
 	DBGPRINT_S(RT_DEBUG_TRACE, ("==>%s()\n", __FUNCTION__));
 
@@ -1663,6 +1664,7 @@ INT	Set_DebugFunc_Proc(
 	IN RTMP_ADAPTER *pAd, 
 	IN PSTRING arg)
 {
+	ULONG RTDebugFunc = 0;
 	DBGPRINT_S(RT_DEBUG_TRACE, ("==>%s()\n", __FUNCTION__));
 	RTDebugFunc = simple_strtol(arg, 0, 10);
 	DBGPRINT_S(RT_DEBUG_TRACE, ("Set RTDebugFunc = 0x%lx\n", RTDebugFunc));
