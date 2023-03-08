@@ -101,6 +101,22 @@ This project is based on original rt-n56u with latest mtk 4.4.198 kernel, which 
   # To build firmware for other devices, clean the tree after previous build
   make clean
   ```
+  
+- Driver modulde compilation
+  
+  Copy / Paste the below codes then put it in the ending of the Makefile in the driver package folder (e.g, mt76x2_ap)
+  **Assume that /work is the root path with padavan-4.4**
+  ```
+  CROSS=/work/padavan-4.4/toolchain-mipsel/toolchain-4.4.x/bin/mipsel-linux-uclibc-
+  KERNEL=/work/padavan-4.4/trunk/linux-4.4.x/
+  STRIP=/work/padavan-4.4/toolchain-mipsel/toolchain-4.4.x/bin/mipsel-linux-uclibc-strip
+
+  all:
+        #make ARCH=mips CROSS_COMPILE=$(CROSS) -C $(KERNEL) SUBDIRS=$(PWD) modules
+        $(STRIP) $(PWD)/$(RT_DRV_NAME).ko
+  clean:
+        make -C $(KERNEL) SUBDIRS=$(PWD) clean
+  ```
 
 # Package Development
 
