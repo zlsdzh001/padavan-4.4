@@ -1,4 +1,4 @@
-name: padavan-4.4-build
+name: MSG1500-build
 
 on: 
   workflow_dispatch:
