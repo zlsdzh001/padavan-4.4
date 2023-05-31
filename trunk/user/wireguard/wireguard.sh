@@ -18,6 +18,7 @@ start_wg() {
 	wg set wg0 peer $peerkey preshared-key /tmp/presharedkey persistent-keepalive 25 allowed-ips 0.0.0.0/0 endpoint $peerip
 	iptables -t nat -A POSTROUTING -o wg0 -j MASQUERADE
 	ifconfig wg0 up
+	logger -t "WIREGUARD" `wg show`
 }
 
 
