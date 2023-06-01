@@ -804,6 +804,7 @@ struct nvram_pair router_defaults[] = {
 	{ "wireguard_enable", "0" },
 	{ "wireguard_localip", "" },
 	{ "wireguard_localkey", "" },
+	{ "wireguard_presharedkey", "" },
 	{ "wireguard_peerip", "" },
 	{ "wireguard_peerkey", "" },
 #endif
