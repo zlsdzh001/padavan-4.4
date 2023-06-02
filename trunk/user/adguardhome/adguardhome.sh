@@ -73,7 +73,7 @@ dns:
   ratelimit_whitelist: []
   refuse_any: true
   bootstrap_dns:
-  - 119.29.29.29
+  - '119.29.29.29'
   - https://8.8.8.8/dns-query
   all_servers: true
   allowed_clients: []
@@ -85,7 +85,7 @@ dns:
   safebrowsing_enabled: false
   resolveraddress: ""
   upstream_dns:
-  - 119.29.29.29
+  - '119.29.29.29'
 tls:
   enabled: false
   server_name: ""
