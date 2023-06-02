@@ -62,9 +62,7 @@ auth_pass: adguardhome
 language: zh-cn
 rlimit_nofile: 0
 dns:
-  bind_host: 
-  - '0.0.0.0'
-  - '::1'
+  bind_host:  '0.0.0.0'
   port: 5335
   protection_enabled: true
   filtering_enabled: true
@@ -75,7 +73,8 @@ dns:
   ratelimit_whitelist: []
   refuse_any: true
   bootstrap_dns:
-  - 223.5.5.5
+  - 119.29.29.29
+  - https://8.8.8.8/dns-query
   all_servers: true
   allowed_clients: []
   disallowed_clients: []
@@ -86,7 +85,7 @@ dns:
   safebrowsing_enabled: false
   resolveraddress: ""
   upstream_dns:
-  - 223.5.5.5
+  - 119.29.29.29
 tls:
   enabled: false
   server_name: ""
@@ -104,6 +103,10 @@ filters:
   url: https://adaway.org/hosts.txt
   name: AdAway
   id: 2
+- enabled: true
+  url: https://ghproxy.com/https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/AdGuard_DNS_filter.txt
+  name: AdGuard DNS filter
+  id: 3
 user_rules: []
 dhcp:
   enabled: false
