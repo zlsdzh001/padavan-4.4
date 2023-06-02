@@ -1,6 +1,6 @@
 name: A040WQ-build
 
-on: 
+on:
   workflow_dispatch:
     inputs:
       version:
@@ -20,7 +20,7 @@ jobs:
       - uses: hendrikmuhs/ccache-action@v1.2
       - uses: actions/setup-go@v3
         with:
-          go-version: '^1.18.6'
+          go-version: "^1.18.6"
       - uses: actions/cache@v3
         with:
           path: |
@@ -96,6 +96,7 @@ jobs:
           echo "CONFIG_FIRMWARE_INCLUDE_XUPNPD=n" >> .config # IPTV
           echo "CONFIG_FIRMWARE_INCLUDE_OPENSSH=n" >> .config # OPENSSH
           echo "CONFIG_FIRMWARE_INCLUDE_DROPBEAR=y" >> .config # dropbear SSH
+          echo "CONFIG_FIRMWARE_INCLUDE_IPSET=y" >> .config # add IPSET
           #########################################################################################
           #自定义添加其它功能请参考源码configs/templates/目录下的config文件。按照上面的格式添加即可
           #格式如下：
