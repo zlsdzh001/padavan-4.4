@@ -33,8 +33,9 @@ This project is based on original rt-n56u with latest mtk 4.4.198 kernel, which 
 - Optimized Makefiles and build scripts, added a toplevel Makefile
 - Added ccache support, may save up to 50%+ build time
 - Upgraded the toolchain and libc:
-  - gcc 10.3.0
-  - uClibc-ng 1.0.42
+  - gcc 12.3.0
+  - musl 1.2.4 / uClibc-ng 1.0.43
+ - OpenWrt style package Makefile
  - Enabled kernel cgroups support
  - Fixed K2P led label names
  - Replaced udpxy with msd_lite
@@ -81,11 +82,13 @@ This project is based on original rt-n56u with latest mtk 4.4.198 kernel, which 
   ```sh
   # Debian/Ubuntu
   sudo apt install unzip libtool-bin ccache curl cmake gperf gawk flex bison nano xxd \
-      fakeroot kmod cpio git python3-docutils gettext automake autopoint \
+      fakeroot kmod cpio bc zip git python3-docutils gettext automake autopoint \
       texinfo build-essential help2man pkg-config zlib1g-dev libgmp3-dev \
       libmpc-dev libmpfr-dev libncurses5-dev libltdl-dev wget libc-dev-bin
   ```
-  **Optional:** install [golang](https://go.dev/doc/install) (and add it to PATH), if you are going to build go programs
+  **Optional:**
+  - install [golang](https://go.dev/doc/install) for building go programs
+  - install [nodejs](https://nodejs.org/en/download) for building [AdGuardHome](trunk/user/adguardhome)
 - Clone source code
   ```sh
   git clone https://github.com/tsl0922/padavan.git

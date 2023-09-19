@@ -12,6 +12,7 @@ EOF
     logger -t "AdGuardHome" "添加DNS转发到5335端口"
   fi
 }
+
 del_dns() {
   sed -i '/no-resolv/d' /etc/storage/dnsmasq/dnsmasq.conf
   sed -i '/server=127.0.0.1#5335/d' /etc/storage/dnsmasq/dnsmasq.conf
@@ -49,6 +50,11 @@ clear_iptable() {
     ip6tables -t nat -D PREROUTING -p tcp -d $IP --dport 53 -j REDIRECT --to-ports $OLD_PORT >/dev/null 2>&1
   done
 
+  IPS="$(ifconfig | grep "inet6 addr" | grep -v " fe80::" | grep -v " ::1" | grep "Global" | awk '{print $3}')"
+  for IP in $IPS; do
+    ip6tables -t nat -D PREROUTING -p udp -d $IP --dport 53 -j REDIRECT --to-ports $OLD_PORT >/dev/null 2>&1
+    ip6tables -t nat -D PREROUTING -p tcp -d $IP --dport 53 -j REDIRECT --to-ports $OLD_PORT >/dev/null 2>&1
+  done
 }
 
 getconfig() {
@@ -117,7 +123,6 @@ dhcp:
   range_end: ""
   lease_duration: 86400
   icmp_timeout_msec: 1000
-clients: []
 log_file: ""
 verbose: false
 schema_version: 3
@@ -133,12 +138,13 @@ start_adg() {
   getconfig
   change_dns
   set_iptable
-  logger -t "AdGuardHome" "运行AdGuardHome"
-  eval "/usr/bin/AdGuardHome -c $adg_file -w /tmp/AdGuardHome" &
-
+  logger -t "AdGuardHome" "启动 AdGuardHome"
+  eval "AdGuardHome -c $adg_file -w /tmp/AdGuardHome -v" &
 }
+
 stop_adg() {
   rm -rf /tmp/AdGuardHome
+  logger -t "AdGuardHome" "停止 AdGuardHome"
   killall -9 AdGuardHome
   del_dns
   clear_iptable
